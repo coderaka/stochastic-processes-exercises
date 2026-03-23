@@ -1,4 +1,4 @@
-site_name: Stochastic Process Exercises and Solutions
+site_name: 《计算机科学中的随机过程》习题书
 theme:
   name: material
   language: zh
@@ -9,9 +9,11 @@ theme:
 nav:
   - 首页: index.md
   - 习题与解答:
-      - 第一章: exercises/chapter_01.md
+      - 第一章: exercises/chapter_01_exercises.md
+      - 第一章: exercises/chapter_01_problems.md
 
 markdown_extensions:
+  - attr_list
   - admonition
   - pymdownx.details
   - pymdownx.superfences

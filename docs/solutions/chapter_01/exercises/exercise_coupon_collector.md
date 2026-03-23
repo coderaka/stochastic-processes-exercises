@@ -1,4 +1,4 @@
-!!! success "来自[Your name]的解答"
+??? success "来自[Your name]的解答"
 
     总所周知，$1+1=2$。
 

@@ -8,8 +8,8 @@
 
 ### 第 1 步：找到对应的解答文件
 所有解答文件均独立存放在 `docs/solutions/` 目录下，并按章节分类。
-例如，你想回答第一章的问题 1.1，请前往以下路径找到对应的文件（如果文件还不存在，请直接新建它）：
-`docs/solutions/chapter_01/problem_1_1.md`
+例如，你想回答第一章“Power of Two Choices”这道问题，请前往以下路径找到对应的文件（如果文件还不存在，请直接新建它）：
+`docs/solutions/chapter_01/problems/problem_two_choices.md`
 
 ### 第 2 步：追加你的代码块
 在文件的最末尾，直接追加你的解答即可。可以直接复制以下模板，并填入你的名字和内容：

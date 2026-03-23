@@ -1,0 +1,15 @@
+/* 针对 "练习" 页面的 H3 自动编号 */
+h2.ex-counter ~ h3::before {
+  counter-increment: question;
+  content: "练习 " counter(chapter) "." counter(question) " ";
+  color: #000000;
+  margin-right: 8px;
+}
+
+/* 针对 "问题" 页面的 H3 自动编号 */
+h2.prob-counter ~ h3::before {
+  counter-increment: question;
+  content: "问题 " counter(chapter) "." counter(question) " ";
+  color: #000000;
+  margin-right: 8px;
+}
