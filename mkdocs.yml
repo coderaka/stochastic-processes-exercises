@@ -9,18 +9,24 @@ theme:
 nav:
   - 首页: index.md
   - 习题与解答:
-      - 第一章: exercises/chapter_01_exercises.md
-      - 第一章: exercises/chapter_01_problems.md
+      - 第一章: 
+        - 练习: exercises/chapter_01_exercises.md
+        - 问题: exercises/chapter_01_problems.md
 
 markdown_extensions:
   - attr_list
   - admonition
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.snippets:          # 注意这里加了冒号
       base_path: docs           # 这一行告诉插件：所有小剪刀路径都从 docs 文件夹开始算！
+
+extra_css:
+  - stylesheets/extra.css
 
 extra_javascript:
   - javascripts/mathjax.js
