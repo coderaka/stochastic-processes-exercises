@@ -4,562 +4,177 @@
 
 ### 双选之力 (Power of Two Choices)
 === "中文"
-	在投球入箱模型中，将 $n$ 个球独立均匀随机地投入 $n$ 个箱子，最大负载高概率是 $O\left(\frac{\log n}{\log\log n}\right)$。这就是大自然的“不公平性”。现在假设我们改变投球规则：每次投球时，独立均匀随机挑选两个不同箱子，把球放入这两个箱子中当前球更少的那个（若一样多则任意选）。
-    
-    令 $\nu_k$ 表示投入全部 $n$ 个球后，负载至少为 $k$ 的箱子数量（$k\le n$）。
-    
-    1. 请证明：在已知 $\nu_k\le\beta_k$（其中 $\beta_k$ 为确定数）的条件下，以至少 $1-n^{-2}$ 的概率有
+    在正文讲的投球入箱模型中，我们将 $n$ 个球独立均匀随机地投入 $n$ 个箱子，最大负载高概率是 $O\tp{\frac{\log n}{\log \log n}}$。这就是大自然的“不公平性”。现在假设我们改变投球规则：每次投球时，我们独立均匀随机地挑选 $2$ 个不同的箱子，然后看一眼，把球放入这两个箱子中当前球更少的那一个（如果一样多就随便挑一个）。
+    1. 令 $\nu_k$ 表示在投入全部 $n$ 个球后，负载至少为 $k$ 的箱子数量（$k\le n$）。请证明：在已知 $\nu_k \le \beta_k$ 的条件下（其中 $\beta_k$ 是一个确定的数），以至少 $1 - n^{-2}$ 的概率，有
     	$$
-    	\nu_{k+1}\le \frac{2\beta_k^2}{n}.
+    	\nu_{k+1} \le \frac{2\beta_k^2}{n}.
     	$$
-    2. 定义序列 $\beta_k$：$\beta_6=n/4$，且
-    	$$
-    	\beta_{k+1}=\frac{2\beta_k^2}{n}.
-    	$$
-    	请解出 $\beta_{k+6}$ 的通项公式，并据此证明只需 $k^*=O(\log\log n)$ 次迭代，上界 $\beta_{k^*}$ 就会下降到 $O(\log n)$ 级别。
+    2. 定义序列 $\beta_k$ 如下：$\beta_6 = n/4$，且 $\beta_{k+1} = \frac{2\beta_k^2}{n}$。请解出 $\beta_{k+6}$ 的通项公式。并据此证明，只需要 $k^* = O(\log \log n)$ 次迭代，上界 $\beta_{k^*}$ 就会下降到 $O(\log n)$ 的级别。
     
 === "English"
-	In the balls-into-bins model, when $n$ balls are independently and uniformly thrown into $n$ bins, the maximum load is typically $O\left(\frac{\log n}{\log\log n}\right)$. Now change the rule: for each ball, pick two distinct bins independently and uniformly at random, and place the ball into the currently less loaded one (if tied, choose arbitrarily).
-    
-    Let $\nu_k$ be the number of bins with load at least $k$ after all $n$ balls are placed ($k\le n$).
-    
-    1. Prove that under the condition $\nu_k\le\beta_k$ (where $\beta_k$ is deterministic), with probability at least $1-n^{-2}$,
-    	$$
-    	\nu_{k+1}\le \frac{2\beta_k^2}{n}.
-    	$$
-    2. Define $\beta_6=n/4$ and
-    	$$
-    	\beta_{k+1}=\frac{2\beta_k^2}{n}.
-    	$$
-    	Derive a closed form for $\beta_{k+6}$, and show that after only $k^*=O(\log\log n)$ iterations, $\beta_{k^*}$ drops to order $O(\log n)$.
-    
+
 --8<-- "solutions/chapter_01/problems/problem_two_choices.md"
 
 ### 乐观的馈赠 (Gift of Optimism)
 === "中文"
-    在正文中讨论多臂老虎机时，我们提到，即使不知晓各个臂的期望收益率，通过置信区间构建的 UCB（Upper Confidence Bound）算法能够实现更优的次线性懊悔。设第 $t$ 次拉动前，第 $i$ 个臂已被拉动 $T_i(t-1)$ 次，其经验均值为 $\hat\mu_{i,T_i(t-1)}$。UCB 算法在前 $n$ 轮先各拉一次，以保证后续 $T_i(t-1)>0$；对 $t\ge n+1$，选择最大化
-    $$
-    U_{i,t}=\hat\mu_{i,T_i(t-1)}+\sqrt{\frac{2\ln t}{T_i(t-1)}}
-    $$
-    的臂。如果取到最大值的有多个臂，则随机选择其中一个。设臂 $1$ 是最优臂（玩家并不知道这个信息），并令 $\Delta_i=\mu_1-\mu_i$。
-    
-    1. 证明：若第 $t$ 步选择了次优臂 $i$（即 $U_{i,t}\ge U_{1,t}$），则至少发生以下三种情况之一：
-    	- 事件 $A$：最优臂被严重低估：
-    	  $$
-    	  \hat\mu_{1,T_1(t-1)}\le \mu_1-\sqrt{\frac{2\ln t}{T_1(t-1)}}.
-    	  $$
-    	- 事件 $B$：次优臂被严重高估：
-    	  $$
-    	  \hat\mu_{i,T_i(t-1)}\ge \mu_i+\sqrt{\frac{2\ln t}{T_i(t-1)}}.
-    	  $$
-    	- 事件 $C$：该次优臂探索不足：
-    	  $$
-    	  \Delta_i\le 2\sqrt{\frac{2\ln t}{T_i(t-1)}}.
-    	  $$
-    2. 对固定 $t$ 和次优臂 $i$（$t\ge n+1, i\ne1$），证明事件 $A$ 与事件 $B$ 的概率都不超过 $t^{-4}$。
-    3. 证明每个次优臂被拉动的期望次数
-    	$$
-	    \mathbb{E}[T_i(T)] = O\left(\frac{\ln T}{\Delta_i^2}\right),
-    	$$
-    	并据此证明 UCB 的期望懊悔上界为
-    	$$
-	    O\left(\sqrt{nT\ln T}\right).
-    	$$
-    4. 请指出直观上UCB算法为什么比ETC算法的表现更好？
+		在正文中讨论多臂老虎机时，我们提到，即使不知晓各个臂的期望收益率，通过置信区间构建的 UCB（Upper Confidence Bound）算法能够实现更优的次线性懊悔。假设我们在第 $t$ 次拉动前，第 $i$ 个臂已被拉动了 $T_i(t-1)$ 次，其前几次的经验均值为 $\hat{\mu}_{i, T_i(t-1)}$。UCB 算法在前 $n$ 轮会把每个臂拉一遍，以保证后续 $T_i(t-1)>0$，对于 $t\ge n+1$，算法在第 $t$ 次会选择最大化以下值的臂：
+		$$
+		U_{i,t} = \hat{\mu}_{i, T_i(t-1)} + \sqrt{\frac{2\ln t}{T_i(t-1)}}.
+		$$
+		如果取到最大值的有多个臂，则随机选择其中一个。不妨假设 $1$ 臂是最优臂（玩家并不知道这个信息），并令 $\Delta_i=\mu_1-\mu_i$。
+		1. 请证明，如果 UCB 算法在第 $t$ 步（$t\ge n+1$）选择了次优臂 $i$（意味着 $U_{i,t} \geq U_{1,t}$），那么必然有以下三种情况之一发生了：
+		- 事件 $A$：最优臂 $1$ 的经验均值被严重低估了，即 $\hat{\mu}_{1, T_1(t-1)} \le \mu_1 - \sqrt{\frac{2\ln t}{T_1(t-1)}}$；
+		- 事件 $B$：次优臂 $i$ 的经验均值被严重高估了，即 $\hat{\mu}_{i, T_i(t-1)} \ge \mu_i + \sqrt{\frac{2\ln t}{T_i(t-1)}}$；
+		- 事件 $C$：该次优臂 $i$ 被探索的次数还不够多，$T_i(t-1)$ 对于区分均值差 $\Delta_i$ 来说太小了，即 $\Delta_i \leq 2\sqrt{\frac{2\ln t}{T_i(t-1)}}$。
+		2. 对于确定的 $t$ 和次优臂 $i$（其中 $t\ge n+1$, $i\neq 1$），请证明上一问中事件 $A$ 和事件 $B$ 发生的概率均不超过 $t^{-4}$。
+		3. 证明每个次优臂被拉动的期望次数 $\E{T_i(T)} = O\tp{\frac{\ln T}{\Delta_i^2}}$，并据此进一步证明 UCB 算法的期望懊悔上界为 $O\tp{\sqrt{nT\ln T}}$。
+		4. 请指出直观上 UCB 算法为什么比 ETC 算法的表现更好？
     
 === "English"
-    In multi-armed bandits with $n$ arms, let $T_i(t-1)$ be the number of pulls of arm $i$ before round $t$, and let $\hat\mu_{i,T_i(t-1)}$ be its empirical mean. The upper confidence bound (UCB) algorithm pulls each arm once in the first $n$ rounds. For $t\ge n+1$, it chooses an arm maximizing
-    $$
-    U_{i,t}=\hat\mu_{i,T_i(t-1)}+\sqrt{\frac{2\ln t}{T_i(t-1)}}.
-    $$
-    If there are multiple arms with the same maximum value, choose one randomly. Assume arm $1$ is optimal and define $\Delta_i=\mu_1-\mu_i$.
-    
-    1. Prove that if at round $t$ a suboptimal arm $i$ is selected (i.e., $U_{i,t}\ge U_{1,t}$), then at least one of the following holds:
-    	- Event $A$: the optimal arm is severely underestimated:
-    	  $$
-    	  \hat\mu_{1,T_1(t-1)}\le \mu_1-\sqrt{\frac{2\ln t}{T_1(t-1)}};
-    	  $$
-    	- Event $B$: suboptimal arm $i$ is severely overestimated:
-    	  $$
-    	  \hat\mu_{i,T_i(t-1)}\ge \mu_i+\sqrt{\frac{2\ln t}{T_i(t-1)}};
-    	  $$
-    	- Event $C$: arm $i$ has not been explored enough:
-    	  $$
-    	  \Delta_i\le 2\sqrt{\frac{2\ln t}{T_i(t-1)}}.
-    	  $$
-    2. For fixed $t$ and suboptimal arm $i$ ($t\ge n+1, i\ne1$), prove that both $\Pr(A)$ and $\Pr(B)$ are at most $t^{-4}$.
-    3. Prove
-    	$$
-	    \mathbb{E}[T_i(T)] = O\left(\frac{\ln T}{\Delta_i^2}\right)
-    	$$
-    	for each suboptimal arm, and deduce the UCB expected regret bound
-    	$$
-	    O\left(\sqrt{nT\ln T}\right).
-    	$$
-    4. Give an intuitive explanation for why UCB often outperforms the explore-then-commit (ETC) algorithm.
-    
+
 --8<-- "solutions/chapter_01/problems/problem_optimism.md"
 
 ### 纯粹的探索 (Pure Exploration)
 === "中文"
-    考虑多臂老虎机的纯探索（pure exploration）变体，我们不在乎累计懊悔，我们唯一的目的是：拉动尽可能少的次数之后结束探索，并以至少 $1-\delta$ 的概率输出均值最大的臂（$\delta\in(0,1)$）。
-    
-    1. 若已知所有次优臂与最优臂的均值差都至少为 $\Delta>0$（但不知道最优臂是谁），请基于霍夫丁不等式设计一个简单算法（如均匀探索），并给出总拉动次数上界以保证成功概率至少 $1-\delta$。
-    2. 均匀探索算法存在的问题是会在明显极差的臂上浪费大量单次测试成本。我们可以考虑一个更聪明的连续淘汰（successive elimination）算法：维护活跃集 $S$，初始 $S=[n]$。第 $r$ 轮对活跃臂各拉一次，得到经验均值 $\hat\mu_{i,r}$，令
+    考虑多臂老虎机的纯探索（pure exploration）变体，我们不在乎累计懊悔，我们唯一的目的是：拉动尽可能少的次数之后结束探索，并且在结束时以至少 $1-\delta$ 的概率输出均值最大的那个臂（$\delta \in (0,1)$）。
+    1. 如果我们已知所有次优臂与最优臂的均值差距都至少为 $\Delta > 0$（但不知道哪个是最优臂）。基于霍夫丁不等式，请设计一个简单的算法（例如，对所有臂进行相同次数的均匀探索），说明总共需要拉动多少次才能保证有至少 $1-\delta$ 的概率选出最优臂。
+    2. 均匀探索算法存在的问题是会在明显极差的臂上浪费大量单次测试成本。我们可以考虑一个更聪明的连续淘汰（successive elimination）算法：维护一个活跃臂的集合 $S$，初始 $S=[n]$。在第 $r$ 轮对活跃集的每一个臂各拉动一次，获得活跃集中每个臂在前 $r$ 轮的经验均值 $\hat{\mu}_{i,r}$。取 $C_r = \sqrt{\frac{\ln(4n r^2 / \delta)}{2r}}$，若某一活跃臂 $i$ 的经验均值满足 $\max_{j\in S}\hat{\mu}_{j,r} - \hat{\mu}_{i,r}\geq 2C_r$，则将臂 $i$ 从活跃集中淘汰。定义事件
     	$$
-    	C_r=\sqrt{\frac{\ln(4nr^2/\delta)}{2r}}.
+	    \mathcal{E} = \{ \forall\, i \in [n],\; \forall\, r \ge 1 :\ |\hat{\mu}_{i,r} - \mu_i| < C_r \}
     	$$
-    	若某活跃臂 $i$ 满足
-    	$$
-    	\max_{j\in S}\hat\mu_{j,r}-\hat\mu_{i,r}\ge 2C_r,
-    	$$
-    	则淘汰 $i$。定义事件
-    	$$
-	    E=\{\forall i\in[n],\forall r\ge1:\ |\hat\mu_{i,r}-\mu_i|<C_r\}.
-    	$$
-    	请证明 $\Pr(E)\ge1-\delta$，并据此说明算法成功概率至少 $1-\delta$。
-    3. 设最优臂编号为 $1$（玩家并不知道），证明：以至少 $1-\delta$ 的概率，该算法的拉动次数不超过
-    	$$
-	    O\left(\sum_{i\ne1}\frac{1}{\Delta_i^2}\log\frac{n}{\delta\Delta_i}\right).
-    	$$
-    4. 讨论连续淘汰与均匀探索的优劣。
+    	请证明 $\Pr{\mathcal{E}}\geq 1-\delta$，并据此说明算法成功概率至少为 $1-\delta$。
+    3. 不妨假设最优臂的标号为 $1$（玩家并不知道这个信息），请证明，以至少 $1-\delta$ 的概率，该算法的拉动次数不超过 $O\tp{\sum_{i\neq 1}\frac{1}{\Delta_i^2}\log\frac{n}{\delta \Delta_i}}$。
+    4. 探讨上述连续淘汰算法与均匀探索算法的优劣。
     
 === "English"
-    Consider the pure exploration version of multi-armed bandits: we only care about stopping as early as possible and outputting the arm with largest mean with probability at least $1-\delta$ ($\delta\in(0,1)$).
-    
-    1. Suppose all suboptimal arms have mean gap at least $\Delta>0$ from the best arm (but the best arm is unknown). Using Hoeffding's inequality, design a simple algorithm (e.g., uniform exploration) and derive the total number of pulls needed for success probability at least $1-\delta$.
-    2. Consider successive elimination: maintain an active set $S$, initialized as $S=[n]$. In round $r$, pull each active arm once and compute empirical means $\hat\mu_{i,r}$. Let
-    	$$
-    	C_r=\sqrt{\frac{\ln(4nr^2/\delta)}{2r}}.
-    	$$
-    	Eliminate active arm $i$ if
-    	$$
-    	\max_{j\in S}\hat\mu_{j,r}-\hat\mu_{i,r}\ge 2C_r.
-    	$$
-    	Define
-    	$$
-	    E=\{\forall i\in[n],\forall r\ge1:\ |\hat\mu_{i,r}-\mu_i|<C_r\}.
-    	$$
-    	Prove $\Pr(E)\ge1-\delta$, and conclude that the algorithm succeeds with probability at least $1-\delta$.
-    3. Assume the optimal arm is indexed by $1$ (unknown to the learner). Prove that with probability at least $1-\delta$, the number of pulls is at most
-    	$$
-	    O\left(\sum_{i\ne1}\frac{1}{\Delta_i^2}\log\frac{n}{\delta\Delta_i}\right).
-    	$$
-    4. Discuss advantages and disadvantages of successive elimination versus uniform exploration.
-    
+
 --8<-- "solutions/chapter_01/problems/problem_pure_exploration.md"
 
 ### 区分的代价 (Cost of Distinguishing)
 === "中文"
-    在公平硬币检验中，我们知道用
-    $$
-	T=O\left(\frac{1}{\varepsilon^2}\log\frac{1}{\delta}\right)
-    $$
-    个样本可区分 $\mathrm{Ber}(1/2)$ 与 $\mathrm{Ber}(1/2+\varepsilon)$，且正确率至少 $1-\delta$。在本题中，我们将证明（在忽略常数倍的意义下）这一算法是最优的。
-    
-    设
-    $$
-    L=\frac{1}{100\varepsilon^2}\log\frac{1}{4\delta},\qquad
-    \varepsilon\in(0,1/8),\ \delta\in(0,e^{-4}/4).
-    $$
-    先我们先考虑确定性算法，即随机性的唯一来源是扔硬币的结果。假设存在满足要求且 $\mathbb{E}_0[T]\le L$ 的算法 $\mathcal{A}$。记 $\Pr_i,\mathbb{E}_i$ 分别表示输入为情形 $i$（$i=0$ 表示公平，$i=1$ 表示有偏）时的概率与期望。我们的样本空间为 $\Omega=\{0,1\}^*$。
-    
-    定义事件：
+	在公平硬币检验中，我们讲过如何用 $T = O\tp{\frac{1}{\eps^2}\log\frac{1}{\delta}}$ 个样本来判断一个硬币是公平的（$\!{Ber}(1/2)$）还是有偏的（$\!{Ber}(1/2+\eps)$），且判断准确的概率至少为 $1-\delta$。在本题中，我们将证明（在忽略常数倍的意义下）这一算法是最优的。换言之，我们将证明任何满足该条件的算法在输入是公平硬币时必有 $\E{T} = \Omega\tp{\frac{1}{\eps^2}\log\frac{1}{\delta}}$。
 
-    - $A$: $T\le4L$；
-  
-    - $B$: 对任意 $1\le t\le4L$，
-      $$
-      \left|K_t-\frac{t}{2}\right|\le\sqrt{L\log\frac{1}{4\delta}},
-      $$
-      其中 $K_t$ 为前 $t$ 次抛掷中正面个数；
+	设 $L = \frac{1}{100\eps^2}\log\frac{1}{4\delta}$。假设 $\eps \in (0, 1/8), \delta \in (0, e^{-4}/4)$。我们先考虑确定性算法，即随机性的唯一来源是扔硬币的结果。令 $\Pr[0]{\cdot}$ 和 $\E[0]{\cdot}$ 表示输入硬币是情况 $0$ 时的概率和期望，令 $\Pr[1]{\cdot}$ 和 $\E[1]{\cdot}$ 表示输入硬币是情况 $1$ 时的概率和期望，其中 $0$ 表示公平硬币，$1$ 表示有偏硬币。使用反证法，假设存在一个满足要求的确定性算法 $\mathcal{A}$，满足 $\E[0]{T} \le L$。考虑样本空间 $\Omega = \set{0, 1}^{*}$。
 
-    - $C$: 算法输出 $0$（判断为公平硬币）。
-    
-    1. 下面这个定理是切比雪夫不等式的推广，请使用该定理（无需证明）证明：
-    	$$
-    	\Pr_0(A\cap B\cap C)\ge\frac14.
-    	$$
-    	定理：若 $X_1,\dots,X_N$ 是独立伯努利随机变量，
-    	$$
-    	S_k=\sum_{i=1}^k\left(X_i-\mathbb{E}[X_i]\right),
-    	$$
-    	则任意 $s>0$ 有
-    	$$
-    	\Pr\left(\max_{1\le k\le N}|S_k|\ge s\right)\le\frac{\mathrm{Var}(S_N)}{s^2}.
-    	$$
-    2. 证明：对任意 $\omega\in A\cap B\cap C$，
-    	$$
-    	\frac{\Pr_1(\omega)}{\Pr_0(\omega)}\ge4\delta.
-    	$$
-    3. 证明 $\Pr_1(C)>\delta$，并据此说明满足要求且保证 $\mathbb{E}_0[T]\le L$ 的确定性算法不存在。
-    4. 若 $\mathcal{A}$ 是随机算法（可使用额外随机数），下界
-    	$$
-    	\mathbb{E}_0[T]=\Omega\left(\frac{1}{\varepsilon^2}\log\frac{1}{\delta}\right)
-    	$$
-    	是否仍成立？为什么？
-    5. 若你了解 KL 散度，请计算单次抛掷下这两种伯努利分布的 KL 散度，你能否直观地解释，为了使两个分布产生的可观测序列在统计上变得“足够好区分”，我们需要积累与 $1/\varepsilon^2$ 成正比的信息量？
+	定义如下三个事件：
+	- $A$: $T \le 4L$；
+	- $B$: 对于任意 $1 \le t \le 4L$，$\abs{K_t - \frac{t}{2}} \le \sqrt{L \log \frac{1}{4\delta}}$，其中 $K_t$ 表示前 $t$ 次实验中正面的个数；
+	- $C$: $\mathcal{A}$ 输出 $0$，即认为硬币是公平的。
+
+	1. 下面这个定理是切比雪夫不等式的推广，请用这个定理证明 $\Pr[0]{A \cap B \cap C} \ge 1/4$（此定理本身无需证明，可以直接使用）。
+		定理：假设 $X_1,\dots,X_N$ 是 $N$ 个定义在同一个概率空间上的独立伯努利随机变量，令 $S_k=\sum_{i=1}^k \tp{X_i - \E{X_i}}$，那么对于任意的 $s>0$,
+		$$
+		\Pr{\max_{1\le k\le N}\abs{S_k}\ge s} \le \frac{\Var{S_n}}{s^2}.
+		$$
+	2. 请证明，对于任意的 $\omega \in A \cap B \cap C$，有 $\frac{\Pr[1]{\omega}}{\Pr[0]{\omega}} \ge 4\delta$。
+	3. 请证明 $\Pr[1]{C} > \delta$，并据此证明满足要求且保证 $\E[0]{T} \le L$ 的确定性算法是不存在的。
+	4. 若 $\mathcal{A}$ 是一个随机算法，即 $\mathcal{A}$ 可以使用额外的随机数，那么 $\E[0]{T} = \Omega\tp{\frac{1}{\eps^2}\log\frac{1}{\delta}}$ 的下界是否仍然成立？为什么？
+	5. 如果你了解相对熵（KL divergence），计算硬币每次独立抛掷中这两种伯努利分布的 KL 散度。你能否直观地解释，为了使两个分布产生的可观测序列在统计上变得“足够好区分”，我们需要积累与 $1/\eps^2$ 成正比的信息量？
     
 === "English"
-    In fair-coin testing, we know that
-    $$
-	T=O\left(\frac{1}{\varepsilon^2}\log\frac{1}{\delta}\right)
-    $$
-    samples suffice to distinguish $\mathrm{Ber}(1/2)$ from $\mathrm{Ber}(1/2+\varepsilon)$ with success probability at least $1-\delta$. This problem asks you to prove this rate is optimal up to constants.
-    
-    Let
-    $$
-    L=\frac{1}{100\varepsilon^2}\log\frac{1}{4\delta},\qquad
-    \varepsilon\in(0,1/8),\ \delta\in(0,e^{-4}/4).
-    $$
-    First consider deterministic algorithms (all randomness comes from coin tosses). For contradiction, assume there exists an algorithm $\mathcal{A}$ meeting the guarantee with $\mathbb{E}_0[T]\le L$. Let $\Pr_i$ and $\mathbb{E}_i$ denote probability and expectation under hypothesis $i$ ($i=0$ fair, $i=1$ biased). The sample space is $\Omega=\{0,1\}^*$.
-    
-    Define events:
 
-    - $A$: $T\le4L$;
-
-    - $B$: for all $1\le t\le4L$,
-      $$
-      \left|K_t-\frac{t}{2}\right|\le\sqrt{L\log\frac{1}{4\delta}},
-      $$
-      where $K_t$ is the number of heads in the first $t$ tosses;
-	  
-    - $C$: algorithm outputs $0$ (declares fair coin).
-    
-    1. Using the following theorem (no proof needed), show
-    	$$
-    	\Pr_0(A\cap B\cap C)\ge\frac14.
-    	$$
-    	Theorem: If $X_1,\dots,X_N$ are independent Bernoulli random variables and
-    	$$
-    	S_k=\sum_{i=1}^k\left(X_i-\mathbb{E}[X_i]\right),
-    	$$
-    	then for any $s>0$,
-    	$$
-    	\Pr\left(\max_{1\le k\le N}|S_k|\ge s\right)\le\frac{\mathrm{Var}(S_N)}{s^2}.
-    	$$
-    2. Prove that for every $\omega\in A\cap B\cap C$,
-    	$$
-    	\frac{\Pr_1(\omega)}{\Pr_0(\omega)}\ge4\delta.
-    	$$
-    3. Prove $\Pr_1(C)>\delta$, and conclude that no deterministic algorithm satisfying the required guarantee can have $\mathbb{E}_0[T]\le L$.
-    4. If $\mathcal{A}$ is randomized (with extra internal randomness), does the lower bound
-    	$$
-    	\mathbb{E}_0[T]=\Omega\left(\frac{1}{\varepsilon^2}\log\frac{1}{\delta}\right)
-    	$$
-    	still hold? Why?
-    5. If you know KL divergence, compute the KL divergence between the two Bernoulli distributions per toss, and explain intuitively why distinguishing them requires information of order $1/\varepsilon^2$.
-    
 --8<-- "solutions/chapter_01/problems/problem_distinguishing_cost.md"
 
 ### 必输的赌博 (A Losing Gamble)
 === "中文"
-    上一题里我们证明了要区分公平硬币和偏差 $\eps$ 的硬币，至少需要 $\Omega(\eps^{-2}\log \delta^{-1})$ 的样本。本题我们将这一结论推广，来证明多臂老虎机（MAB）的懊悔下界。
-    
-    考虑 $K=n+1$ 个臂，编号 $0,1,\dots,n$。我们构造实例集合 $\mathcal{I}=\{\nu_0,\nu_1,\dots,\nu_n\}$:
+    在上一题中，我们证明了要区分公平硬币和偏差 $\eps$ 的硬币，至少需要 $\Omega(\eps^{-2}\log \delta^{-1})$ 的样本。本题我们将这一结论推广，来证明多臂老虎机（MAB）的懊悔下界。
 
-    - 实例 $\nu_0$：臂 $0\sim\mathrm{Ber}(\tfrac12+\tfrac\varepsilon2)$ 是最优的，其余 $i\in[n]$ 满足 $\mathrm{Ber}(\tfrac12)$；
-  
-    - 实例 $\nu_j$（$j\in[n]$）：臂 $0\sim\mathrm{Ber}(\tfrac12+\tfrac\varepsilon2)$，臂 $j\sim\mathrm{Ber}(\tfrac12+\varepsilon)$ 是最优的，其余臂 $\mathrm{Ber}(\tfrac12)$。
-    
-    在这个问题上，我们称一个算法是 $(\varepsilon,\delta)$-PAC （probably approximately correct）的，若它在停止时以至少 $1-\delta$ 的概率输出一个 $\varepsilon$-最优臂（即其与最优臂的期望受益之差小于 $\varepsilon$）。记 $T_j$ 为臂 $j$ 被拉动总次数，$\mathbb{E}_\nu[\cdot]$ 为实例 $\nu$ 下期望，注意，此处的随机性来自算法本身的随机性以及臂的收益的随机性。
-    
-    1. 假设 $\mathcal{G}$ 是 $(\varepsilon/2,\delta)$-PAC 算法（$\delta<1/8$）。利用上一题结论论证：存在常数 $c>0$，使得任意 $j\in[n]$ 在实例 $\nu_0$ 下都有
+    考虑 $K = n+1$ 个臂的老虎机，臂的编号为 $0, 1, \dots, n$。我们构造如下 $n+1$ 个实例集合 $\mathcal{I} = \set{\nu_0, \nu_1, \dots, \nu_n}$：
+    - 实例 $\nu_0$：臂 $0$ 是最优臂，服从 $\!{Ber}\tp{\frac{1}{2} + \frac{\eps}{2}}$；其余臂 $i \in [n]$ 服从 $\!{Ber}\tp{\frac{1}{2}}$。
+    - 实例 $\nu_j$（$j \in [n]$）：臂 $0$ 服从 $\!{Ber}\tp{\frac{1}{2} + \frac{\eps}{2}}$；臂 $j$ 是最优臂，服从 $\!{Ber}\tp{\frac{1}{2} + \eps}$；其余臂 $i \notin \set{0, j}$ 服从 $\!{Ber}\tp{\frac{1}{2}}$。
+
+    在这个问题上，我们称一个算法是 $(\eps, \delta)$-PAC 的，如果它在停止时能以至少 $1-\delta$ 的概率输出一个 $\eps$-最优臂（即其与最优臂的期望受益之差小于 $\eps$）。令 $T_j$ 表示臂 $j$ 被拉动的总次数，$\E[\nu]{\cdot}$ 表示在实例 $\nu$ 下的期望，注意，此处的随机性来自算法本身的随机性以及臂的收益的随机性。
+
+    1. 假设 $\mathcal{G}$ 是一个 $\tp{\frac{\eps}{2}, \delta}$-PAC 算法（其中 $\delta < 1/8$）。请利用上一题的结论论证：存在常数 $c>0$，使得对于任意 $j \in [n]$，在实例 $\nu_0$ 下，算法 $\mathcal{G}$ 拉动臂 $j$ 的期望次数 $\E[\nu_0]{T_j}$ 满足：
     	$$
-    	\mathbb{E}_{\nu_0}[T_j]\ge\frac{c}{\varepsilon^2}\log\frac{1}{\delta}.
+    	\E[\nu_0]{T_j} \ge \frac{c}{\eps^2} \log \frac{1}{\delta} .
     	$$
-    2. 设总轮数为 $T$ 的 MAB 算法 $\mathcal{A}$ 在实例 $\nu$ 上的累积期望懊悔为 $R_T(\mathcal{A},\nu)$。证明：对任意 MAB 算法 $\mathcal{A}$，总存在某个实例 $\nu\in\mathcal{I}$ 使得
+    2. 考虑一个总轮数为 $T$ 的 MAB 算法 $\mathcal{A}$，设其在实例 $\nu$ 上的累积期望懊悔为 $R_T(\mathcal{A}, \nu)$。请证明：对于任意 MAB 算法 $\mathcal{A}$，总是存在某个实例 $\nu \in \mathcal{I}$，使得
     	$$
-    	R_T(\mathcal{A},\nu)=\Omega(\sqrt{nT}).
+    	R_T(\mathcal{A}, \nu) = \Omega(\sqrt{nT}).
     	$$
-    	提示：取 $\varepsilon=2\sqrt{n/T}$，若假设 $\mathcal{A}$ 在所有实例上懊悔都很小，可构造纯探索算法：运行 $\mathcal{A}$ 共 $T$ 轮后输出被拉动次数最多的臂，利用第一问的结论导出矛盾。。
+    	提示：取 $\eps = 2\sqrt{\frac{n}{T}}$。假设 $\mathcal{A}$ 在所有实例上的懊悔都很小，可以构造一个纯探索算法 $\mathcal{G}$：运行 $\mathcal{A}$ 一共 $T$ 轮，然后输出被拉动次数最多的臂。证明 $\mathcal{G}$ 是一个 $\tp{\frac{\eps}{2}, \delta}$-PAC 算法，并利用第一问的结论导出矛盾。
     
 === "English"
-    In the previous problem, we proved that distinguishing a fair coin from a biased coin with bias $\eps$ requires at least $\Omega(\eps^{-2}\log \delta^{-1})$ samples. In this problem, we will generalize this result to prove a regret lower bound for multi-armed bandits (MAB).
-    
-    Consider a bandit with $K=n+1$ arms indexed by $0,1,\dots,n$. Construct the instance family $\mathcal{I}=\{\nu_0,\nu_1,\dots,\nu_n\}:$
 
-    - Instance $\nu_0$: arm $0\sim\mathrm{Ber}(\tfrac12+\tfrac\varepsilon2)$, and each other arm $i\in[n]$ has $\mathrm{Ber}(\tfrac12)$;
-  
-    - Instance $\nu_j$ ($j\in[n]$): arm $0\sim\mathrm{Ber}(\tfrac12+\tfrac\varepsilon2)$, arm $j\sim\mathrm{Ber}(\tfrac12+\varepsilon)$ (optimal), and all other arms are $\mathrm{Ber}(\tfrac12)$.
-    
-    An algorithm is $(\varepsilon,\delta)$-PAC if it outputs an $\varepsilon$-optimal arm with probability at least $1-\delta$ upon stopping. Let $T_j$ be the total number of pulls of arm $j$, and $\mathbb{E}_\nu[\cdot]$ denote expectation under instance $\nu$.
-    
-    1. Assume $\mathcal{G}$ is $(\varepsilon/2,\delta)$-PAC with $\delta<1/8$. Using the previous problem, show there exists a constant $c>0$ such that for every $j\in[n]$, under $\nu_0$,
-    	$$
-    	\mathbb{E}_{\nu_0}[T_j]\ge\frac{c}{\varepsilon^2}\log\frac{1}{\delta}.
-    	$$
-    2. Let $\mathcal{A}$ be any MAB algorithm run for $T$ rounds, and let its cumulative expected regret on instance $\nu$ be $R_T(\mathcal{A},\nu)$. Prove that for any such algorithm, there exists some $\nu\in\mathcal{I}$ such that
-    	$$
-    	R_T(\mathcal{A},\nu)=\Omega(\sqrt{nT}).
-    	$$
-    	Hint: set $\varepsilon=2\sqrt{n/T}$. If $\mathcal{A}$ had small regret on all instances, construct a pure-exploration algorithm by running $\mathcal{A}$ for $T$ rounds and outputting the most-pulled arm; then derive a contradiction with part 1.
-    
 --8<-- "solutions/chapter_01/problems/problem_unavoidable_loss.md"
 
 ### 均匀性测试 (Uniformity Testing)
 === "中文"
 	在公平硬币检验中，我们讲了如何区分公平硬币和有偏硬币。现在我们来推广这个问题。
 
-    考虑样本空间 $\Omega=\{1,2,\dots,n\}$。对$\Omega$ 上的任意一个分布 $q$，令 $q_i$ 表示从分布 $q$ 中采样一次得到样本为 $i$ 的概率（$i \in [n]$）。对于 $\Omega$ 上的两个分布 $p$ 和 $q$，其总变分距离定义为
-    $$
-    d_{\mathrm{TV}}(p,q)=\frac12\sum_{i=1}^n|p_i-q_i|.
-    $$
-    令 $\mu$ 是 $\Omega$ 上的均匀分布，$\pi$ 是 $\Omega$ 上的一个未知分布。假设我们已经知道 $\pi$ 要么就是均匀分布（即 $\pi = \mu$），要么与均匀分布差别很大，即 $d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$（$\varepsilon\in(0,1/2)$）。均匀性测试问题指的是，通过从分布中采样，来判断它到底是均匀分布还是距离均匀分布很远。在这个问题里，我们来设计一个高效的均匀性测试算法，即使用尽量少的样本来保证至少 $1 - \delta$ 的判断准确概率。
+    考虑样本空间 $\Omega = \set{1, 2, \dots, n}$。对于 $\Omega$ 上的任意一个分布 $q$，令 $q_i$ 表示从分布 $q$ 中采样一次得到样本为 $i$ 的概率（$i \in [n]$）。对于 $\Omega$ 上的两个分布 $p$ 和 $q$，定义其总变分距离（total variation distance）为 $\dTV(p, q) = \frac{1}{2} \sum_{i=1}^n \abs{p_i - q_i}$。
+
+    令 $\mu$ 是 $\Omega$ 上的均匀分布，$\pi$ 是 $\Omega$ 上的一个未知分布。假设我们已经知道 $\pi$ 要么就是均匀分布（即 $\pi = \mu$），要么与均匀分布差别很大，即 $\dTV(\pi, \mu) \ge \eps$（其中 $\eps \in (0, 1/2)$ 是一个已知的常数）。均匀性测试问题指的是，通过从分布中采样，来判断它到底是均匀分布还是距离均匀分布很远。在这个问题里，我们来设计一个高效的均匀性测试算法，即使用尽量少的样本来保证至少 $1 - \delta$ 的判断准确概率。
 
 	大家可以首先猜一下我们至少需要多少个样本才能达到这个目标。在正文里，我们讲了奖券收集问题，知道平均需要大约 $n \log n$ 个样本，才能够保证每一个样本都被采集到。这是否说明，判断目标分布是不是均匀分布，至少需要 $\Omega(n \log n)$ 个样本呢？
 
 	实际上，我们可以用少得多的样本达到这个目标。我们一起来设计一个算法，只要用 $O(\sqrt{n})$ 的样本就可以了。假设 $n = 10000$，那么我们只要取几百个样本就能判断是不是均匀分布，我们并不需要获得绝大多数样本的信息。我们用到的工具就是正文提到的生日悖论，我们知道如果 $\pi$ 是均匀分布，那么实际上大约 $\Theta(\sqrt{n})$ 个样本就可以保证高概率出现两个同样的样本。我们接下来的讨论将说明，均匀分布是让这件事最难发生的分布，并利用这个事实来判断一个分布是不是均匀分布。
-    
-    1. 令
-    	$$
-    	\|\pi\|=\sqrt{\sum_{i=1}^n\pi_i^2}.
-    	$$
-    	若 $X,Y$ 独立采自 $\pi$，证明
-    	$$
-    	\Pr(X=Y)=\|\pi\|^2.
-    	$$
-		这里 $\|\pi\|^2$ 被称为碰撞概率。
-	
-    2. 证明：
-   
-    	1) $\|\mu\|^2=1/n$；
-   
-    	2) 若 $d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$，则
-    	$$
-    	\|\pi\|^2-\|\mu\|^2\ge\frac{4\varepsilon^2}{n}.
-    	$$
-    3. 设 $X_1,\dots,X_m$（$m\ge4$）独立采自 $\pi$。对 $1\le i<j\le m$，定义
-    	$$
-    	Y_{ij}=\mathbf{1}\{X_i=X_j\},\qquad
-    	Z=\frac{1}{\binom m2}\sum_{1\le i<j\le m}Y_{ij}.
-    	$$
-    	证明：
 
-    	1) $\mathbb{E}[Z]=\|\pi\|^2$；
-   
-    	2)
+    1. 令 $\|\pi\| = \sqrt{\sum_{i=1}^n \pi_i^2}$。假设 $X$ 和 $Y$ 是独立地从 $\pi$ 中采的两个样本，请证明 $\Pr{X = Y} = \|\pi\|^2$。这里 $\|\pi\|^2$ 被称为碰撞概率。
+    2. 请证明：
+    	1) $\|\mu\|^2 = \frac{1}{n}$；
+    	2) 若 $\dTV(\pi, \mu) \ge \eps$，则有 $\|\pi\|^2 - \|\mu\|^2 \ge \frac{4\eps^2}{n}$。
+    3. 假设 $X_1, X_2, \dots, X_m$ 是 $m$ 个从 $\pi$ 中独立采出的样本点（$m \ge 4$），对于 $1 \le i < j \le m$，定义随机变量 $Y_{ij} = \1{X_i = X_j}$。令 $Z = \frac{1}{\binom{m}{2}} \sum_{1 \le i < j \le m} Y_{ij}$ 表示碰撞发生的频率，请证明：
+    	1) $\E{Z} = \|\pi\|^2$；
+    	2) $\Var{Z} \le \frac{4\|\pi\|^3}{m} + \frac{4\|\pi\|^2}{m^2}$；
+    	3) 无论 $\pi = \mu$ 或 $\dTV(\pi, \mu) \ge \eps$，都有
     	$$
-    	\mathrm{Var}(Z)\le\frac{4\|\pi\|^3}{m}+\frac{4\|\pi\|^2}{m^2};
+    	\Pr{\abs{Z - \E{Z}} \ge \eps^2 \E{Z}} \le \frac{4\sqrt{n}}{\eps^4 m} + \frac{4n}{\eps^4 m^2}.
     	$$
-
-    	2) 无论 $\pi=\mu$ 或 $d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$，都有
-    	$$
-    	\Pr\left(|Z-\mathbb{E}[Z]|\ge\varepsilon^2\mathbb{E}[Z]\right)
-    	\le \frac{4\sqrt n}{\varepsilon^4m}+\frac{4n}{\varepsilon^4m^2}.
-    	$$
-    4. 根据以上结论，我们知道当 $d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$ 时碰撞发生概率明显大于均匀分布下碰撞发生概率，于是我们可以考虑根据碰撞发生频率 $Z$ 的大小来判断 $\pi$ 是否为均匀分布。考虑算法：独立采样
-    	$$
-    	m=\frac{100\sqrt n}{\varepsilon^4}
-    	$$
-    	个样本并计算 $Z$。若
-    	$$
-    	Z\ge\frac{1+2\varepsilon^2}{n}
-    	$$
-    	输出“$d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$”，否则输出“$\pi=\mu$”。请证明该算法出错概率不超过 $0.1$。
+    4. 根据以上结论，我们知道当 $\dTV(\pi, \mu) \ge \eps$ 时碰撞发生概率明显大于均匀分布下碰撞发生概率，于是我们可以考虑根据碰撞发生频率 $Z$ 的大小来判断 $\pi$ 是否为均匀分布。我们考虑如下算法：
+    - 从 $\pi$ 中独立地采 $m = \frac{100\sqrt{n}}{\eps^4}$ 个样本点，并计算 $Z$ 的值；
+    - 若 $Z \ge \frac{1+2\eps^2}{n}$，则输出 $\dTV(\pi, \mu) \ge \eps$，反之输出 $\pi = \mu$。
+    	请证明该算法出错概率不超过 $0.1$。
     
 === "English"
-    Let the sample space be $\Omega=\{1,2,\dots,n\}$. For a distribution $q$, write $q_i=\Pr(X=i)$. For distributions $p,q$, define total variation distance by
-    $$
-    d_{\mathrm{TV}}(p,q)=\frac12\sum_{i=1}^n|p_i-q_i|.
-    $$
-    Let $\mu$ be uniform on $\Omega$, and $\pi$ be an unknown distribution. Assume either $\pi=\mu$, or $d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$ where $\varepsilon\in(0,1/2)$. The goal is to decide which case holds using as few samples as possible.
-    
-    1. Define
-    	$$
-    	\|\pi\|=\sqrt{\sum_{i=1}^n\pi_i^2}.
-    	$$
-    	If $X,Y$ are i.i.d. from $\pi$, prove
-    	$$
-    	\Pr(X=Y)=\|\pi\|^2.
-    	$$
-    2. Prove:
-   
-    	1) $\|\mu\|^2=1/n$;
 
-    	2) if $d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$, then
-    	$$
-    	\|\pi\|^2-\|\mu\|^2\ge\frac{4\varepsilon^2}{n}.
-    	$$
-    3. Let $X_1,\dots,X_m$ ($m\ge4$) be i.i.d. from $\pi$. For $1\le i<j\le m$, define
-    	$$
-    	Y_{ij}=\mathbf{1}\{X_i=X_j\},\qquad
-    	Z=\frac{1}{\binom m2}\sum_{1\le i<j\le m}Y_{ij}.
-    	$$
-    	Prove:
-
-    	1) $\mathbb{E}[Z]=\|\pi\|^2$;
-
-    	2)
-    	$$
-    	\mathrm{Var}(Z)\le\frac{4\|\pi\|^3}{m}+\frac{4\|\pi\|^2}{m^2};
-    	$$
-
-    	3) regardless of whether $\pi=\mu$ or $d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$,
-    	$$
-    	\Pr\left(|Z-\mathbb{E}[Z]|\ge\varepsilon^2\mathbb{E}[Z]\right)
-    	\le \frac{4\sqrt n}{\varepsilon^4m}+\frac{4n}{\varepsilon^4m^2}.
-    	$$
-    4. Consider this tester: sample
-    	$$
-    	m=\frac{100\sqrt n}{\varepsilon^4}
-    	$$
-    	points independently from $\pi$ and compute $Z$. If
-    	$$
-    	Z\ge\frac{1+2\varepsilon^2}{n},
-    	$$
-    	output "$d_{\mathrm{TV}}(\pi,\mu)\ge\varepsilon$"; otherwise output "$\pi=\mu$". Prove the error probability is at most $0.1$.
-    
 --8<-- "solutions/chapter_01/problems/problem_uniformity_testing.md"
 
 ### 学习离散分布 (Learning a Discrete Distribution)
 === "中文"
 	假设你计划在校园里开一家咖啡店，想了解学生们最喜欢的咖啡口味。菜单上有 $n$ 种选择。你决定进行一次问卷调查，随机询问学生他们最喜欢的咖啡。问题是：如何利用这些数据来推断学生们的口味偏好？你需要询问多少名学生？
 
-    我们将这个问题转化为一个数学模型。令 $p$ 为样本空间 $\Omega = \set{1, 2, \dots, n}$ 上的一个未知分布。给定 $T$ 个独立样本
-    $$
-    X_1,X_2,\dots,X_T\sim p,
-    $$
-    希望输出经验分布 $\hat p$，使得 $\hat{p}$ 尽可能接近 $p$，具体而言，我们希望以至少 $1-\delta$ 的概率满足
-    $$
-    d_{\mathrm{TV}}(p,\hat p)=\frac12\sum_{i=1}^n|p_i-\hat p_i|\le\varepsilon,
-    $$
-	其中 $\varepsilon, \delta \in (0, 1)$.
+    我们将这个问题转化为一个数学模型。令 $p$ 为样本空间 $\Omega = \set{1, 2, \dots, n}$ 上的一个未知分布。现在我们有 $T$ 个独立同分布的样本 $X_1, X_2, \dots, X_T \sim p$。我们希望利用这些样本计算出一个经验分布 $\hat{p}$，使得 $\hat{p}$ 尽可能接近 $p$。具体而言，给定两个参数 $\eps, \delta \in (0, 1)$，你的任务是设计算法，使得算法能以至少 $1 - \delta$ 的概率输出一个满足总变分距离 $\dTV(p, \hat{p}) = \frac{1}{2} \sum_{i=1}^n \abs{p_i - \hat{p}_i} \le \eps$ 的分布 $\hat{p}$，并且使用的样本数 $T$ 尽可能少。
 
-    1. 先考虑 $n=2$。请设计一个算法，使用
-    	$$
-	    T=O\left(\frac{1}{\varepsilon^2}\log\frac{1}{\delta}\right)
-    	$$
-    	个样本，以至少 $1-\delta$ 概率找到满足 $d_{\mathrm{TV}}(p,\hat p)\le\varepsilon$ 的 $\hat p$，并给出分析。
+    在下文中，我们可以将 $p = (p_1, \dots, p_n)$ 和 $\hat{p} = (\hat{p}_1, \dots, \hat{p}_n)$ 视为两个 $n$ 维向量，满足 $\sum_{i=1}^n p_i = \sum_{i=1}^n \hat{p}_i = 1$ 且对于任意 $i \in [n]$ 都有 $p_i, \hat{p}_i \ge 0$。
 
-    2. 对一般 $n\ge2$，证明
+    1. 首先考虑 $n = 2$ 的情况。对于两个分布 $p = (p_1, p_2)$ 和 $\hat{p} = (\hat{p}_1, \hat{p}_2)$，请设计一个算法，使用 $T = O\tp{\frac{1}{\eps^2} \log \frac{1}{\delta}}$ 个样本，以至少 $1 - \delta$ 的概率找到满足 $\dTV(p, \hat{p}) \le \eps$ 的 $\hat{p}$，并给出你的算法分析。
+    2. 对于一般的 $n \ge 2$，请证明：
     	$$
-    	d_{\mathrm{TV}}(p,\hat p)=\max_{S\subseteq[n]}\sum_{j\in S}(p_j-\hat p_j).
+    	\dTV(p, \hat{p}) = \max_{S \subseteq [n]} \sum_{j \in S} (p_j - \hat{p}_j).
     	$$
-    3. 对每个 $i\in[n]$，令
+    3. 考虑如下算法：对于每个 $i \in [n]$，令 $\hat{p}_i = \frac{1}{T} \sum_{t=1}^T \1{X_t = i}$，即第 $i$ 种选择出现的频率。对于任意子集 $S \subseteq [n]$，我们用 $p(S)$ 和 $\hat{p}(S)$ 分别表示 $\sum_{j \in S} p_j$ 和 $\sum_{j \in S} \hat{p}_j$。请证明，存在一个常数 $c > 0$，使得对于任意的子集 $S$ 和任意 $\eps > 0$，都有
     	$$
-    	\hat p_i=\frac1T\sum_{t=1}^T\mathbf{1}\{X_t=i\}.
+    	\Pr{p(S) - \hat{p}(S) \ge \eps} \le \exp(-c \cdot \eps^2 T).
     	$$
-    	对任意子集 $S\subseteq[n]$，记
-    	$$
-    	p(S)=\sum_{j\in S}p_j,\qquad \hat p(S)=\sum_{j\in S}\hat p_j.
-    	$$
-    	请证明存在常数 $c>0$，使得任意 $S$、任意 $\varepsilon>0$，都有
-    	$$
-    	\Pr\big(p(S)-\hat p(S)\ge\varepsilon\big)\le \exp(-c\varepsilon^2T).
-    	$$
-    4. 证明：使用上述经验分布构造，只需
-    	$$
-	    T=O\left(\frac{1}{\varepsilon^2}\left(n+\log\frac1\delta\right)\right)
-    	$$
-    	个样本，就能以至少 $1-\delta$ 概率满足 $d_{\mathrm{TV}}(p,\hat p)\le\varepsilon$。
+    4. 证明：使用上述算法构造的 $\hat{p}$，只需要 $T = O\tp{\frac{1}{\eps^2}\tp{n + \log \frac{1}{\delta}}}$ 个样本，就能以至少 $1 - \delta$ 的概率满足 $\dTV(p, \hat{p}) \le \eps$。
     
 === "English"
-	Suppose you want to open a coffee shop on campus and are curious about students' favorite coffee flavors. The menu has $n$ options. You decide to conduct a survey, randomly asking students about their preferences. The question is: how can you use this data to infer the students' taste preferences? How many students do you need to ask?
 
-    We consider a simple model. Let $p$ be an unknown distribution defined on $\Omega=\{1,2,\dots,n\}$. Given $T$ i.i.d. samples
-    $$
-    X_1,X_2,\dots,X_T\sim p,
-    $$
-    we want to output an empirical distribution $\hat p$ such that with probability at least $1-\delta$,
-    $$
-    d_{\mathrm{TV}}(p,\hat p)=\frac12\sum_{i=1}^n|p_i-\hat p_i|\le\varepsilon.
-    $$
-    1. First consider $n=2$. Design an algorithm using
-    	$$
-	    T=O\left(\frac{1}{\varepsilon^2}\log\frac{1}{\delta}\right)
-    	$$
-    	samples, which outputs $\hat p$ satisfying $d_{\mathrm{TV}}(p,\hat p)\le\varepsilon$ with probability at least $1-\delta$, and analyze it.
-
-    2. For general $n\ge2$, prove
-    	$$
-    	d_{\mathrm{TV}}(p,\hat p)=\max_{S\subseteq[n]}\sum_{j\in S}(p_j-\hat p_j).
-    	$$
-    3. For each $i\in[n]$, define
-    	$$
-    	\hat p_i=\frac1T\sum_{t=1}^T\mathbf{1}\{X_t=i\}.
-    	$$
-    	For any subset $S\subseteq[n]$, let
-    	$$
-    	p(S)=\sum_{j\in S}p_j,\qquad \hat p(S)=\sum_{j\in S}\hat p_j.
-    	$$
-    	Prove there exists a constant $c>0$ such that for any $S$ and any $\varepsilon>0$,
-    	$$
-    	\Pr\big(p(S)-\hat p(S)\ge\varepsilon\big)\le \exp(-c\varepsilon^2T).
-    	$$
-    4. Prove that with the above empirical estimator, it is enough to take
-    	$$
-	    T=O\left(\frac{1}{\varepsilon^2}\left(n+\log\frac1\delta\right)\right)
-    	$$
-    	samples to guarantee $d_{\mathrm{TV}}(p,\hat p)\le\varepsilon$ with probability at least $1-\delta$.
-    
 --8<-- "solutions/chapter_01/problems/problem_discrete_distribution.md"
 
 ### 没有免费的午餐 (No Free Lunch)
 === "中文"
-    在二分类问题中，给定样本集
-    $$
-    S_m=\{(X_i,C(X_i))\}_{i=1}^m,
-    $$
-    其中 $X_i\in\mathbb{R}^d$ 独立同分布采样自未知分布 $\mu$，标签由布尔函数 $C:\mathbb{R}^d\to\{0,1\}$ 给出。学习算法 $\mathcal{A}$ 输出分类器
-    $$
-    h(\cdot)=\mathcal{A}(\cdot,S_m),
-    $$
-    误差为
-    $$
-    R(h)=\Pr(h(X)\ne C(X)),\quad X\sim\mu.
-    $$
-    给定任意学习算法 $\mathcal{A}$ 和任意偶数大小有限特征空间 $\mathcal{X}\subseteq\mathbb{R}^d$，其中 $|\mathcal{X}|=2m>4$。请证明存在函数 $C:\mathcal{X}\to\{0,1\}$ 和分布 $\mu$，使得
-    $$
-    \Pr\big(R(\mathcal{A}(\cdot,S_m))\ge1/8\big)\ge1/8.
-    $$
-    为了证明这一结论，我们采用概率方法。令 $\mu$ 为 $\mathcal{X}$ 上均匀分布；对每个 $x\in\mathcal{X}$，独立均匀随机取 $Y_x\in\{0,1\}$，并定义随机函数 $C(x)=Y_x$。
-    
-    1. 先在随机标签 $\{Y_x\}_{x\in\mathcal{X}}$ 与随机样本 $S_m$ 上证明
-    	$$
-    	\mathbb{E}[R(\mathcal{A}(\cdot,S_m))]\ge\frac14,
-    	$$
-    	并由此说明存在一个确定的函数 $C$ 使得（仅对样本 $S_m$ 取期望）
-    	$$
-    	\mathbb{E}[R(\mathcal{A}(\cdot,S_m))]\ge\frac14.
-    	$$
-    2. 基于上一问，证明存在确定性函数 $C$ 使得
-    	$$
-    	\Pr\big(R(\mathcal{A}(\cdot,S_m))\ge1/8\big)\ge1/8.
-    	$$
+	在二分类问题中，给定样本集 $S_m = \set{(X_i, C(X_i))}_{i=1}^m$，其中 $X_i \in \bb R^d$ 独立同分布地采样自未知概率测度 $\mu$，标签由布尔函数 $C: \bb R^d \to \set{0, 1}$ 给出。我们的目标是通过学习算法 $\mathcal{A}$，基于样本 $S_m$ 构造一个函数 $h = \mathcal{A}(\cdot, S_m): \bb R^d \to \set{0, 1}$，使得其误差 $R(h) = \Pr{h(X) \neq C(X)}$ 尽可能小，其中 $X \sim \mu$。
 
-	注：这一结论直观上说明了，如果目标函数是完全任意的，且我们只观察到了空间中一半的样本，那么对于剩下未见的一半样本，我们实际上没有获得任何信息，因此无法期望得到较低的泛化误差。这并非通常意义上的欠拟合（underfitting），而是强调了\emph{归纳偏置（inductive bias）}的必要性：即没有任何算法能在不依赖先验假设的情况下对所有问题都表现良好。
+	本题旨在证明机器学习中的经典结论，没有免费的午餐定理（no free lunch theorem）。给定任意学习算法 $\mathcal{A}$ 和任意大小为偶数的有限特征空间 $\mathcal{X} \subseteq \bb R^d$，记 $\abs{\mathcal{X}} = 2m > 4$。我们将证明：存在一个函数 $C: \mathcal{X} \to \set{0, 1}$ 和 $\mathcal{X}$ 上的分布 $\mu$，使得
+	$$
+	\Pr{R(\mathcal{A}(\cdot, S_m)) \ge 1/8} \ge 1/8.
+	$$
+	为了证明这一结论，我们采用概率方法。假设 $\mu$ 是 $\mathcal{X}$ 上的均匀分布。对于每个 $x \in \mathcal{X}$，我们独立且均匀地从 $\set{0, 1}$ 中随机选取 $Y_x$，并定义随机函数 $C(x) := Y_x$。
+
+	1. 首先，考虑在随机标签 $\set{Y_x}_{x \in \mathcal{X}}$ 和随机样本 $S_m$ 上的期望风险 $\E{R(\mathcal{A}(\cdot, S_m))}$。请证明：
+		$$
+		\E{R(\mathcal{A}(\cdot, S_m))} \ge \frac{1}{4},
+		$$
+		并由此说明，存在一个确定的函数 $C$，使得在该函数下 $\E{R(\mathcal{A}(S_m))} \ge 1/4$（此处的期望仅对样本 $S_m$ 取）。
+	2. 基于上一问的结论，证明存在一个确定性的函数 $C$，使得：
+		$$
+		\Pr{R(\mathcal{A}(\cdot, S_m)) \ge 1/8} \ge 1/8.
+		$$
+
+	注：这一结论直观上说明了，如果目标函数是完全任意的，且我们只观察到了空间中一半的样本，那么对于剩下未见的一半样本，我们实际上没有获得任何信息，因此无法期望得到较低的泛化误差。这并非通常意义上的欠拟合（underfitting），而是强调了归纳偏置（inductive bias）的必要性：即没有任何算法能在不依赖先验假设的情况下对所有问题都表现良好。
 === "English"
-    In binary classification, given a sample set
-    $$
-    S_m=\{(X_i,C(X_i))\}_{i=1}^m,
-    $$
-    where $X_i\in\mathbb{R}^d$ are i.i.d. from an unknown distribution $\mu$, and labels are given by a Boolean function $C:\mathbb{R}^d\to\{0,1\}$, a learning algorithm $\mathcal{A}$ outputs a classifier
-    $$
-    h(\cdot)=\mathcal{A}(\cdot,S_m),
-    $$
-    with error
-    $$
-    R(h)=\Pr(h(X)\ne C(X)),\quad X\sim\mu.
-    $$
-    Given any learning algorithm $\mathcal{A}$ and any finite feature space $\mathcal{X}\subseteq\mathbb{R}^d$ with even size $|\mathcal{X}|=2m>4$, prove that there exist a target function $C:\mathcal{X}\to\{0,1\}$ and a distribution $\mu$ such that
-    $$
-    \Pr\big(R(\mathcal{A}(\cdot,S_m))\ge1/8\big)\ge1/8.
-    $$
-    You may use the following random construction: let $\mu$ be uniform on $\mathcal{X}$; for each $x\in\mathcal{X}$, independently sample $Y_x\in\{0,1\}$ uniformly and define $C(x)=Y_x$.
-    
-    1. First prove that
-    	$$
-    	\mathbb{E}[R(\mathcal{A}(\cdot,S_m))]\ge\frac14,
-    	$$
-		where the expectation is over both the random labels $\{Y_x\}_{x\in\mathcal{X}}$ and the random sample $S_m$. Then use this to conclude there exists a fixed function $C$ such that (expectation only over $S_m$)
-    	$$
-    	\mathbb{E}[R(\mathcal{A}(\cdot,S_m))]\ge\frac14.
-    	$$
-    2. Based on part 1, prove there exists a deterministic function $C$ such that
-    	$$
-    	\Pr\big(R(\mathcal{A}(\cdot,S_m))\ge1/8\big)\ge1/8.
-    	$$
-	
-	Remark: This result intuitively illustrates that if the target function is completely arbitrary and we only observe half of the samples in the space, then for the remaining half, we have no information, and thus cannot expect to achieve low generalization error. This is not underfitting in the usual sense, but rather emphasizes the necessity of inductive bias: no algorithm can perform well on all problems without relying on some prior assumptions.
+
 --8<-- "solutions/chapter_01/problems/problem_no_free_lunch.md"
