@@ -93,6 +93,8 @@
 	font-weight: 550;
 	color: var(--md-default-fg-color--light);
 	letter-spacing: 0.01em;
+	background-color: color-mix(in srgb, var(--md-default-fg-color) 7%, transparent);
+	border-bottom: 1px solid var(--md-default-fg-color--lightest);
 }
 
 .md-typeset .admonition.hint > .admonition-title::before,
