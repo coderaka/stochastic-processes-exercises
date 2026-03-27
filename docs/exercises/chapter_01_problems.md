@@ -1,4 +1,4 @@
-## 第一章 独立随机变量 (Independent Random Variables)
+# 第一章 独立随机变量 (Independent Random Variables)
 
 ## 问题 (Problems) {: .prob-counter style="counter-reset: chapter 1 question 0;" }
 
