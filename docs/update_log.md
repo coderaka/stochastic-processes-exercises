@@ -6,6 +6,7 @@
         <div class="update-meta">2026-03-27</div>
         <p>新的在上方</p>
       </div>
+      <div class="update-item">
         <div class="update-meta">2026-03-27</div>
         <p>初始化更新日志页面与样式，支持中英文切换、细线分隔、按时间倒序展示。</p>
       </div>
@@ -17,6 +18,7 @@
         <div class="update-meta">2026-03-27</div>
         <p>The latest news is at the top.</p>
       </div>
+      <div class="update-item">
         <div class="update-meta">2026-03-27</div>
         <p>Initialized the update log page and styling with CN/EN tabs, thin separators, and reverse chronological order.</p>
       </div>
