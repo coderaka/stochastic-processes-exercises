@@ -4,7 +4,7 @@
     <div class="update-log">
       <div class="update-item">
         <div class="update-meta">2026-03-27</div>
-        <p>新的在上方</p>
+        <p>check pr workflow</p>
       </div>
       <div class="update-item">
         <div class="update-meta">2026-03-27</div>
