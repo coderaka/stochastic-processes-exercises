@@ -140,21 +140,22 @@
     	$$
     	\Pr{X - \E{X} \ge t} \le
         \left\lbrace\begin{aligned}
-    &\exp\tp{-\frac{t^2}{2\nu}}, && \text{若 } t \in \stp{0, \frac{\nu}{\alpha}}; \\
+    &\exp\tp{-\frac{t^2}{2\nu}}, && \text{若 } t \in \stp{0, \frac{\nu}{\alpha}}; \cr
     &\exp\tp{-\frac{t}{2\alpha}}, && \text{若 } t \in \tp{\frac{\nu}{\alpha}, \infty}.
     \end{aligned}\right.
     	$$
     2. **（可加性）**假设 $X_1, \dots, X_N$ 是相互独立的随机变量，且每个 $X_i$ 都是参数为 $(\nu_i, \alpha_i)$ 的次指数随机变量。证明：对于任意常数 $w_1, \dots, w_N \in \bb R$，加权和 $\sum_{i=1}^N w_i X_i$ 也是次指数随机变量，且其参数为 $\tp{\sum_{i=1}^N w_i^2 \nu_i, \max_{i \in [N]} \abs{w_i} \alpha_i}$。
+   
     3. **（广义伯恩斯坦不等式）**结合前两问的结论，证明广义伯恩斯坦不等式（generalized Bernstein inequality）：在上一问的条件下，记 $S_N = \sum_{i=1}^N w_i X_i$，对于任意 $t \ge 0$，有
     	$$
     	\Pr{S_N - \E{S_N} \ge t} \le
         \left\lbrace\begin{aligned}
-    &\exp\tp{-\frac{t^2}{2\sum_{i=1}^N w_i^2 \nu_i}}, && \text{若 } t \in \stp{0, \frac{\sum_{i=1}^N w_i^2 \nu_i}{\max_{i \in [N]} \abs{w_i} \alpha_i}}; \\
+    &\exp\tp{-\frac{t^2}{2\sum_{i=1}^N w_i^2 \nu_i}}, && \text{若 } t \in \stp{0, \frac{\sum_{i=1}^N w_i^2 \nu_i}{\max_{i \in [N]} \abs{w_i} \alpha_i}}; \cr
     &\exp\tp{-\frac{t}{2\max_{i \in [N]} \abs{w_i} \alpha_i}}, && \text{其他情况.}
     \end{aligned}\right.
     	$$
 === "English"
-    In the previous exercises, we explored sub-Gaussian distributions. However, many common random variables (such as the square of a Gaussian random variable, i.e., the chi-squared distribution) have heavier tails than the Gaussian distribution and do not satisfy the sub-Gaussian condition. For this reason, we introduce the concept of sub-exponential distributions.
+    In the previous exercises, we explored sub-Gaussian distributions. However, many common random variables (such as the square of a Gaussian random variable, i.e., the $\chi^2$-distribution) have heavier tails than the Gaussian distribution and do not satisfy the sub-Gaussian condition. For this reason, we introduce the concept of sub-exponential distributions.
 
     A random variable $X$ is called a sub-exponential random variable with parameters $(\nu, \alpha)$ (where $\nu, \alpha > 0$) if its centered moment generating function satisfies the following condition: for any $\abs{\lambda} \le \frac{1}{\alpha}$,
     $$
@@ -164,16 +165,17 @@
     	$$
     	\Pr{X - \E{X} \ge t} \le
         \left\lbrace\begin{aligned}
-    &\exp\tp{-\frac{t^2}{2\nu}}, && \text{if } t \in \stp{0, \frac{\nu}{\alpha}}; \\
+    &\exp\tp{-\frac{t^2}{2\nu}}, && \text{if } t \in \stp{0, \frac{\nu}{\alpha}}; \cr
     &\exp\tp{-\frac{t}{2\alpha}}, && \text{if } t \in \tp{\frac{\nu}{\alpha}, \infty}.
     \end{aligned}\right.
     	$$
     2. **(Additivity)** Suppose $X_1, \dots, X_N$ are independent random variables, and each $X_i$ is a sub-exponential random variable with parameters $(\nu_i, \alpha_i)$. Prove that for any constants $w_1, \dots, w_N \in \bb R$, the weighted sum $\sum_{i=1}^N w_i X_i$ is also a sub-exponential random variable, and its parameters are $\tp{\sum_{i=1}^N w_i^2 \nu_i, \max_{i \in [N]} \abs{w_i} \alpha_i}$.
+   
     3. **(Generalized Bernstein Inequality)** Using the results from the previous two parts, prove the generalized Bernstein inequality: under the conditions of the previous part, let $S_N = \sum_{i=1}^N w_i X_i$. Then for any $t \ge 0$,
     	$$
     	\Pr{S_N - \E{S_N} \ge t} \le
         \left\lbrace\begin{aligned}
-    &\exp\tp{-\frac{t^2}{2\sum_{i=1}^N w_i^2 \nu_i}}, && \text{if } t \in \stp{0, \frac{\sum_{i=1}^N w_i^2 \nu_i}{\max_{i \in [N]} \abs{w_i} \alpha_i}}; \\
+    &\exp\tp{-\frac{t^2}{2\sum_{i=1}^N w_i^2 \nu_i}}, && \text{if } t \in \stp{0, \frac{\sum_{i=1}^N w_i^2 \nu_i}{\max_{i \in [N]} \abs{w_i} \alpha_i}}; \cr
     &\exp\tp{-\frac{t}{2\max_{i \in [N]} \abs{w_i} \alpha_i}}, && \text{otherwise.}
     \end{aligned}\right.
     	$$
@@ -183,6 +185,7 @@
 ### 不相关变量集中不等式 (Concentration Inequality for Uncorrelated Variables)
 === "中文"
     在正文中，我们探讨了独立随机变量之和的集中不等式。现在我们放宽条件，看看如果随机变量仅仅是不相关的，能得到怎样的集中性。设 $X_1, X_2, \dots$ 是一系列中心化（即 $\E{X_i} = 0$）且两两不相关的随机变量，即对于任意 $i \neq j$，有 $\E{X_i X_j} = \E{X_i}\E{X_j}$。
+
     1. 假设存在常数 $C < +\infty$ 使得对所有 $i$ 都有 $\Var{X_i} \le C$。请证明对于任意 $t > 0$，有：
     	$$
     	\Pr{\abs{\frac{1}{n} \sum_{i=1}^n X_i} \ge t} \le \frac{C}{n t^2}.
@@ -190,6 +193,7 @@
     2. 利用上述结论，证明 $L^2$ 弱大数定律：若 $X_1, X_2, \dots$ 是期望均为 $\mu$、方差一致有界（$\sup_i \Var{X_i} < +\infty$）且两两不相关的随机变量，则其经验均值依概率收敛到 $\mu$，即 $\frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{p} \mu$。
 === "English"
     In the main text, we explored concentration inequalities for the sum of independent random variables. Now we relax this condition to see what degree of concentration can be achieved if the random variables are only uncorrelated. Let $X_1, X_2, \dots$ be a sequence of centered (i.e., $\E{X_i} = 0$) and pairwise uncorrelated random variables, meaning $\E{X_i X_j} = \E{X_i}\E{X_j}$ for any $i \neq j$.
+
     1. Suppose there exists a constant $C < +\infty$ such that $\Var{X_i} \le C$ for all $i$. Prove that for any $t > 0$:
     	$$
     	\Pr{\abs{\frac{1}{n} \sum_{i=1}^n X_i} \ge t} \le \frac{C}{n t^2}.
@@ -209,10 +213,12 @@
     <p class="note-inline">注：这说明，由两两独立随机变量构成的系统，不能保证指数尾部概率的衰减。</p>
     
 === "English"
-    The previous problem shows that the condition of being uniformly uncorrelated is sufficient to obtain a polynomial-level concentration inequality. Can pairwise independent and bounded random variables provide exponential concentration, just as fully independent ones do? This problem constructs a counterexample.
+    The previous exercise shows that the condition of being uniformly uncorrelated is sufficient to obtain a polynomial-level concentration inequality. Can pairwise independent and bounded random variables provide exponential concentration, just as fully independent ones do? This problem constructs a counterexample.
 
     Let $U = (U_1, \dots, U_\ell)$ be a random vector uniformly distributed over $\left\{0, 1\right\}^\ell$. Let $n = 2^\ell - 1$. For any non-zero vector $v \in \left\{0, 1\right\}^\ell \setminus \left\{\*0\right\}$, define the random variable $X_v = \inner{U}{v} \pmod 2$.
+
     1. Prove that these $n$ random variables $X_v$ are uniformly distributed over $\left\{0, 1\right\}$ and are pairwise independent.
+   
     2. Prove that for any event $A$ generated by these $n$ random variables $\left\{X_v\right\}_{v \neq \*0}$ (i.e., $A \in \sigma\tp{\left\{X_v\right\}_{v \neq \*0}}$), its probability $\Pr{A}$ is either $0$ or at least $\frac{1}{n+1}$.
 
     <p class="note-inline">Note: This implies that a system composed of pairwise independent random variables cannot guarantee exponential decay of tail probabilities.</p>

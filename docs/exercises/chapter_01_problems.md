@@ -22,10 +22,12 @@
 	U_{i,t} = \hat{\mu}_{i, T_i(t-1)} + \sqrt{\frac{2\ln t}{T_i(t-1)}}.
 	$$
 	如果取到最大值的有多个臂，则随机选择其中一个。不妨假设 $1$ 臂是最优臂（玩家并不知道这个信息），并令 $\Delta_i=\mu_1-\mu_i$。
+
 	1. 请证明，如果 UCB 算法在第 $t$ 步（$t\ge n+1$）选择了次优臂 $i$（意味着 $U_{i,t} \geq U_{1,t}$），那么必然有以下三种情况之一发生了：
-	- 事件 $A$：最优臂 $1$ 的经验均值被严重低估了，即 $\hat{\mu}_{1, T_1(t-1)} \le \mu_1 - \sqrt{\frac{2\ln t}{T_1(t-1)}}$；
-	- 事件 $B$：次优臂 $i$ 的经验均值被严重高估了，即 $\hat{\mu}_{i, T_i(t-1)} \ge \mu_i + \sqrt{\frac{2\ln t}{T_i(t-1)}}$；
-	- 事件 $C$：该次优臂 $i$ 被探索的次数还不够多，$T_i(t-1)$ 对于区分均值差 $\Delta_i$ 来说太小了，即 $\Delta_i \leq 2\sqrt{\frac{2\ln t}{T_i(t-1)}}$。
+   
+      	- 事件 $A$：最优臂 $1$ 的经验均值被严重低估了，即 $\hat{\mu}_{1, T_1(t-1)} \le \mu_1 - \sqrt{\frac{2\ln t}{T_1(t-1)}}$；
+      	- 事件 $B$：次优臂 $i$ 的经验均值被严重高估了，即 $\hat{\mu}_{i, T_i(t-1)} \ge \mu_i + \sqrt{\frac{2\ln t}{T_i(t-1)}}$；
+      	- 事件 $C$：该次优臂 $i$ 被探索的次数还不够多，$T_i(t-1)$ 对于区分均值差 $\Delta_i$ 来说太小了，即 $\Delta_i \leq 2\sqrt{\frac{2\ln t}{T_i(t-1)}}$。
 	2. 对于确定的 $t$ 和次优臂 $i$（其中 $t\ge n+1$, $i\neq 1$），请证明上一问中事件 $A$ 和事件 $B$ 发生的概率均不超过 $t^{-4}$。
 	3. 证明每个次优臂被拉动的期望次数 $\E{T_i(T)} = O\tp{\frac{\ln T}{\Delta_i^2}}$，并据此进一步证明 UCB 算法的期望懊悔上界为 $O\tp{\sqrt{nT\ln T}}$。
 	4. 请指出直观上 UCB 算法为什么比 ETC 算法的表现更好？
@@ -36,10 +38,12 @@
     U_{i,t} = \hat{\mu}_{i, T_i(t-1)} + \sqrt{\frac{2\ln t}{T_i(t-1)}}.
     $$
     If multiple arms attain the maximum, one is chosen uniformly at random. Let us assume without loss of generality that arm $1$ is the optimal arm (the player does not know this information), and let $\Delta_i=\mu_1-\mu_i$.
+
     1. Prove that if the UCB algorithm selects a suboptimal arm $i$ at step $t$ ($t\ge n+1$) (meaning $U_{i,t} \geq U_{1,t}$), then at least one of the following three events must have occurred:
-    - Event $A$: The empirical mean of the optimal arm $1$ is severely underestimated, i.e., $\hat{\mu}_{1, T_1(t-1)} \le \mu_1 - \sqrt{\frac{2\ln t}{T_1(t-1)}}$;
-    - Event $B$: The empirical mean of the suboptimal arm $i$ is severely overestimated, i.e., $\hat{\mu}_{i, T_i(t-1)} \ge \mu_i + \sqrt{\frac{2\ln t}{T_i(t-1)}}$;
-    - Event $C$: The suboptimal arm $i$ has not been explored enough, and $T_i(t-1)$ is too small to distinguish the mean difference $\Delta_i$, i.e., $\Delta_i \leq 2\sqrt{\frac{2\ln t}{T_i(t-1)}}$.
+   
+       - Event $A$: The empirical mean of the optimal arm $1$ is severely underestimated, i.e., $\hat{\mu}_{1, T_1(t-1)} \le \mu_1 - \sqrt{\frac{2\ln t}{T_1(t-1)}}$;
+       - Event $B$: The empirical mean of the suboptimal arm $i$ is severely overestimated, i.e., $\hat{\mu}_{i, T_i(t-1)} \ge \mu_i + \sqrt{\frac{2\ln t}{T_i(t-1)}}$;
+       - Event $C$: The suboptimal arm $i$ has not been explored enough, and $T_i(t-1)$ is too small to distinguish the mean difference $\Delta_i$, i.e., $\Delta_i \leq 2\sqrt{\frac{2\ln t}{T_i(t-1)}}$.
     2. For a fixed $t$ and suboptimal arm $i$ (where $t\ge n+1$, $i\neq 1$), prove that the probability of occurrence for both Event $A$ and Event $B$ in the previous question is at most $t^{-4}$.
     3. Prove that the expected number of pulls for each suboptimal arm is $\E{T_i(T)} = O\tp{\frac{\ln T}{\Delta_i^2}}$, and use this to further prove that the expected regret upper bound of the UCB algorithm is $O\tp{\sqrt{nT\ln T}}$.
     4. Provide an intuitive explanation for why the UCB algorithm performs better than the ETC algorithm.
@@ -49,6 +53,7 @@
 ### 纯粹的探索 (Pure Exploration)
 === "中文"
     考虑多臂老虎机的纯探索（pure exploration）变体，我们不在乎累计懊悔，我们唯一的目的是：拉动尽可能少的次数之后结束探索，并且在结束时以至少 $1-\delta$ 的概率输出均值最大的那个臂（$\delta \in (0,1)$）。
+
     1. 如果我们已知所有次优臂与最优臂的均值差距都至少为 $\Delta > 0$（但不知道哪个是最优臂）。基于霍夫丁不等式，请设计一个简单的算法（例如，对所有臂进行相同次数的均匀探索），说明总共需要拉动多少次才能保证有至少 $1-\delta$ 的概率选出最优臂。
     2. 均匀探索算法存在的问题是会在明显极差的臂上浪费大量单次测试成本。我们可以考虑一个更聪明的连续淘汰（successive elimination）算法：维护一个活跃臂的集合 $S$，初始 $S=[n]$。在第 $r$ 轮对活跃集的每一个臂各拉动一次，获得活跃集中每个臂在前 $r$ 轮的经验均值 $\hat{\mu}_{i,r}$。取 $C_r = \sqrt{\frac{\ln(4n r^2 / \delta)}{2r}}$，若某一活跃臂 $i$ 的经验均值满足 $\max_{j\in S}\hat{\mu}_{j,r} - \hat{\mu}_{i,r}\geq 2C_r$，则将臂 $i$ 从活跃集中淘汰。定义事件
     	$$
@@ -60,6 +65,7 @@
     
 === "English"
     Consider the pure exploration variant of the multi-armed bandit problem, where we do not care about the cumulative regret. Our sole objective is to terminate the exploration after as few pulls as possible and output the arm with the maximum mean reward with probability at least $1-\delta$ ($\delta \in (0,1)$).
+
     1. Suppose we know that the mean difference between any suboptimal arm and the optimal arm is at least $\Delta > 0$ (but we do not know which arm is optimal). Based on Hoeffding's inequality, design a simple algorithm (e.g., uniform exploration that pulls all arms the same number of times) and determine the total number of pulls required to guarantee that the optimal arm is selected with probability at least $1-\delta$.
     2. The problem with the uniform exploration algorithm is that it wastes a significant amount of testing cost on obviously inferior arms. We can consider a smarter successive elimination algorithm: maintain a set of active arms $S$, initially $S=[n]$. In round $r$, pull each arm in the active set once, and obtain the empirical mean $\hat{\mu}_{i,r}$ of each active arm over the first $r$ rounds. Let $C_r = \sqrt{\frac{\ln(4n r^2 / \delta)}{2r}}$. If the empirical mean of an active arm $i$ satisfies $\max_{j\in S}\hat{\mu}_{j,r} - \hat{\mu}_{i,r}\geq 2C_r$, then arm $i$ is eliminated from the active set. Define the event
     	$$
@@ -78,6 +84,7 @@
 	设 $L = \frac{1}{100\eps^2}\log\frac{1}{4\delta}$。假设 $\eps \in (0, 1/8), \delta \in (0, e^{-4}/4)$。我们先考虑确定性算法，即随机性的唯一来源是扔硬币的结果。令 $\Pr[0]{\cdot}$ 和 $\E[0]{\cdot}$ 表示输入硬币是情况 $0$ 时的概率和期望，令 $\Pr[1]{\cdot}$ 和 $\E[1]{\cdot}$ 表示输入硬币是情况 $1$ 时的概率和期望，其中 $0$ 表示公平硬币，$1$ 表示有偏硬币。使用反证法，假设存在一个满足要求的确定性算法 $\mathcal{A}$，满足 $\E[0]{T} \le L$。考虑样本空间 $\Omega = \left\{0, 1\right\}^{*}$。
 
 	定义如下三个事件：
+
 	- $A$: $T \le 4L$；
 	- $B$: 对于任意 $1 \le t \le 4L$，$\abs{K_t - \frac{t}{2}} \le \sqrt{L \log \frac{1}{4\delta}}$，其中 $K_t$ 表示前 $t$ 次实验中正面的个数；
 	- $C$: $\mathcal{A}$ 输出 $0$，即认为硬币是公平的。
@@ -123,6 +130,7 @@
     在上一题中，我们证明了要区分公平硬币和偏差 $\eps$ 的硬币，至少需要 $\Omega(\eps^{-2}\log \delta^{-1})$ 的样本。本题我们将这一结论推广，来证明多臂老虎机（MAB）的懊悔下界。
 
 	考虑 $K = n+1$ 个臂的老虎机，臂的编号为 $0, 1, \dots, n$。我们构造如下 $n+1$ 个实例集合 $\mathcal{I} = \left\{\nu_0, \nu_1, \dots, \nu_n\right\}$：
+
     - 实例 $\nu_0$：臂 $0$ 是最优臂，服从 $\!{Ber}\tp{\frac{1}{2} + \frac{\eps}{2}}$；其余臂 $i \in [n]$ 服从 $\!{Ber}\tp{\frac{1}{2}}$。
 	- 实例 $\nu_j$（$j \in [n]$）：臂 $0$ 服从 $\!{Ber}\tp{\frac{1}{2} + \frac{\eps}{2}}$；臂 $j$ 是最优臂，服从 $\!{Ber}\tp{\frac{1}{2} + \eps}$；其余臂 $i \notin \left\{0, j\right\}$ 服从 $\!{Ber}\tp{\frac{1}{2}}$。
 
@@ -144,6 +152,7 @@
     In the previous problem, we proved that distinguishing a fair coin from a coin with bias $\eps$ requires at least $\Omega(\eps^{-2}\log \delta^{-1})$ samples. In this problem, we generalize this conclusion to prove the regret lower bound for Multi-Armed Bandits (MAB).
 
 	Consider a bandit with $K = n+1$ arms, indexed as $0, 1, \dots, n$. We construct a set of $n+1$ instances $\mathcal{I} = \left\{\nu_0, \nu_1, \dots, \nu_n\right\}$ as follows:
+
     - Instance $\nu_0$: Arm $0$ is the optimal arm, following $\!{Ber}\tp{\frac{1}{2} + \frac{\eps}{2}}$; the remaining arms $i \in [n]$ follow $\!{Ber}\tp{\frac{1}{2}}$.
 	- Instance $\nu_j$ ($j \in [n]$): Arm $0$ follows $\!{Ber}\tp{\frac{1}{2} + \frac{\eps}{2}}$; arm $j$ is the optimal arm, following $\!{Ber}\tp{\frac{1}{2} + \eps}$; the remaining arms $i \notin \left\{0, j\right\}$ follow $\!{Ber}\tp{\frac{1}{2}}$.
 
@@ -173,7 +182,7 @@
 
 	大家可以首先猜一下我们至少需要多少个样本才能达到这个目标。在正文里，我们讲了奖券收集问题，知道平均需要大约 $n \log n$ 个样本，才能够保证每一个样本都被采集到。这是否说明，判断目标分布是不是均匀分布，至少需要 $\Omega(n \log n)$ 个样本呢？
 
-	实际上，我们可以用少得多的样本达到这个目标。我们一起来设计一个算法，只要用 $O(\sqrt{n})$ 的样本就可以了。假设 $n = 10000$，那么我们只要取几百个样本就能判断是不是均匀分布，我们并不需要获得绝大多数样本的信息。我们用到的工具就是正文提到的生日悖论，我们知道如果 $\pi$ 是均匀分布，那么实际上大约 $\Theta(\sqrt{n})$ 个样本就可以保证高概率出现两个同样的样本。我们接下来的讨论将说明，均匀分布是让这件事最难发生的分布，并利用这个事实来判断一个分布是不是均匀分布。
+	实际上，我们可以用少得多的样本达到这个目标。我们一起来设计一个算法，只要用 $O(\sqrt{n})$ 的样本就可以了。我们用到的工具就是正文提到的生日悖论，我们知道如果 $\pi$ 是均匀分布，那么实际上大约 $\Theta(\sqrt{n})$ 个样本就可以保证高概率出现两个同样的样本。我们接下来的讨论将说明，均匀分布是让这件事最难发生的分布，并利用这个事实来判断一个分布是不是均匀分布。
 
     1. 令 $\|\pi\| = \sqrt{\sum_{i=1}^n \pi_i^2}$。假设 $X$ 和 $Y$ 是独立地从 $\pi$ 中采的两个样本，请证明 $\Pr{X = Y} = \|\pi\|^2$。这里 $\|\pi\|^2$ 被称为碰撞概率。
     2. 请证明：
@@ -200,13 +209,15 @@
 
     Before proceeding, one might guess the minimum number of samples required to achieve this goal. In the main text, we discussed the coupon collector's problem and established that on average, about $n \log n$ samples are needed to ensure every sample is collected. Does this imply that at least $\Omega(n \log n)$ samples are required to determine whether the target distribution is uniform?
 
-    In fact, we can achieve this goal with far fewer samples. We will work together to design an algorithm that requires only $O(\sqrt{n})$ samples. For instance, if $n = 10000$, we only need to draw a few hundred samples to make the determination, rather than acquiring information about the vast majority of the sample space. The tool we employ is the birthday paradox mentioned in the main text. We know that if $\pi$ is a uniform distribution, then approximately $\Theta(\sqrt{n})$ samples are sufficient to guarantee a high probability of drawing two identical samples. Our subsequent discussion will demonstrate that the uniform distribution makes this event the hardest to occur, and we will exploit this fact to test uniformity.
+    In fact, we can achieve this goal with far fewer samples. We will work together to design an algorithm that requires only $O(\sqrt{n})$ samples. The tool we employ is the birthday paradox mentioned in the main text. We know that if $\pi$ is a uniform distribution, then approximately $\Theta(\sqrt{n})$ samples are sufficient to guarantee a high probability of drawing two identical samples. Our subsequent discussion will demonstrate that the uniform distribution makes this event the hardest to occur, and we will exploit this fact to test uniformity.
 
     1. Let $\|\pi\| = \sqrt{\sum_{i=1}^n \pi_i^2}$. Suppose $X$ and $Y$ are two independent samples drawn from $\pi$. Prove that $\Pr{X = Y} = \|\pi\|^2$. Here, $\|\pi\|^2$ is referred to as the collision probability.
     2. Prove that:
+   
     	1) $\|\mu\|^2 = \frac{1}{n}$;
     	2) If $\dTV(\pi, \mu) \ge \eps$, then $\|\pi\|^2 - \|\mu\|^2 \ge \frac{4\eps^2}{n}$.
     3. Suppose $X_1, X_2, \dots, X_m$ are $m$ independent samples drawn from $\pi$ ($m \ge 4$). For $1 \le i < j \le m$, define the random variable $Y_{ij} = \1{X_i = X_j}$. Let $Z = \frac{1}{\binom{m}{2}} \sum_{1 \le i < j \le m} Y_{ij}$ denote the empirical collision frequency. Prove that:
+   
     	1) $\E{Z} = \|\pi\|^2$;
     	2) $\Var{Z} \le \frac{4\|\pi\|^3}{m} + \frac{4\|\pi\|^2}{m^2}$;
     	3) Whether $\pi = \mu$ or $\dTV(\pi, \mu) \ge \eps$, we always have
@@ -261,7 +272,7 @@
 
 ### 没有免费的午餐 (No Free Lunch)
 === "中文"
-	在二分类问题中，给定样本集 $S_m = \left\{(X_i, C(X_i))\right\}_{i=1}^m$，其中 $X_i \in \bb R^d$ 独立同分布地采样自未知概率测度 $\mu$，标签由布尔函数 $C: \bb R^d \to \left\{0, 1\right\}$ 给出。我们的目标是通过学习算法 $\mathcal{A}$，基于样本 $S_m$ 构造一个函数 $h = \mathcal{A}(\cdot, S_m): \bb R^d \to \left\{0, 1\right\}$，使得其误差 $R(h) = \Pr{h(X) \neq C(X)}$ 尽可能小，其中 $X \sim \mu$。
+	在二分类问题中，给定样本集 $S_m = \left\{(X_i, C(X_i))\right\}_{i=1}^m$，其中 $X_i \in \bb R^d$ 独立同分布地采样自未知概率测度 $\mu$，标签由布尔函数 $C: \bb R^d \to \left\{0, 1\right\}$ 给出。我们的目标是通过学习算法 $\mathcal{A}$，基于样本 $S_m$ 构造一个函数 $h(\cdot) = \mathcal{A}(\cdot, S_m): \bb R^d \to \left\{0, 1\right\}$，使得其误差 $R(h) = \Pr{h(X) \neq C(X)}$ 尽可能小，其中 $X \sim \mu$。
 
 	本题旨在证明机器学习中的经典结论，没有免费的午餐定理（no free lunch theorem）。给定任意学习算法 $\mathcal{A}$ 和任意大小为偶数的有限特征空间 $\mathcal{X} \subseteq \bb R^d$，记 $\abs{\mathcal{X}} = 2m > 4$。我们将证明：存在一个函数 $C: \mathcal{X} \to \left\{0, 1\right\}$ 和 $\mathcal{X}$ 上的分布 $\mu$，使得
 	$$
@@ -273,7 +284,7 @@
 		$$
 		\E{R(\mathcal{A}(\cdot, S_m))} \ge \frac{1}{4},
 		$$
-		并由此说明，存在一个确定的函数 $C$，使得在该函数下 $\E{R(\mathcal{A}(S_m))} \ge 1/4$（此处的期望仅对样本 $S_m$ 取）。
+		并由此说明，存在一个确定的函数 $C$，使得在该函数下 $\E{R(\mathcal{A}(\cdot,S_m))} \ge 1/4$（此处的期望仅对样本 $S_m$ 取）。
 	2. 基于上一问的结论，证明存在一个确定性的函数 $C$，使得：
 		$$
 		\Pr{R(\mathcal{A}(\cdot, S_m)) \ge 1/8} \ge 1/8.
@@ -281,7 +292,7 @@
 
 	<p class="note-inline">注：这一结论直观上说明了，如果目标函数是完全任意的，且我们只观察到了空间中一半的样本，那么对于剩下未见的一半样本，我们实际上没有获得任何信息，因此无法期望得到较低的泛化误差。这并非通常意义上的欠拟合（underfitting），而是强调了归纳偏置（inductive bias）的必要性：即没有任何算法能在不依赖先验假设的情况下对所有问题都表现良好。</p>
 === "English"
-	In the binary classification problem, we are given a sample set $S_m = \left\{(X_i, C(X_i))\right\}_{i=1}^m$, where $X_i \in \bb R^d$ are drawn independently and identically from an unknown probability measure $\mu$, and labels are given by a Boolean function $C: \bb R^d \to \left\{0, 1\right\}$. Our goal is to use a learning algorithm $\mathcal{A}$ to construct a function $h = \mathcal{A}(\cdot, S_m): \bb R^d \to \left\{0, 1\right\}$ based on the sample $S_m$, such that its risk $R(h) = \Pr{h(X) \neq C(X)}$ is as small as possible, where $X \sim \mu$.
+	In the binary classification problem, we are given a sample set $S_m = \left\{(X_i, C(X_i))\right\}_{i=1}^m$, where $X_i \in \bb R^d$ are drawn independently and identically from an unknown probability measure $\mu$, and labels are given by a Boolean function $C: \bb R^d \to \left\{0, 1\right\}$. Our goal is to use a learning algorithm $\mathcal{A}$ to construct a function $h(\cdot) = \mathcal{A}(\cdot, S_m): \bb R^d \to \left\{0, 1\right\}$ based on the sample $S_m$, such that its risk $R(h) = \Pr{h(X) \neq C(X)}$ is as small as possible, where $X \sim \mu$.
 
 	This problem aims to prove a classical result in machine learning: the no free lunch theorem. Given any learning algorithm $\mathcal{A}$ and any finite feature space $\mathcal{X} \subseteq \bb R^d$ of even size, denote $\abs{\mathcal{X}} = 2m > 4$. We will prove that: there exists a function $C: \mathcal{X} \to \left\{0, 1\right\}$ and a distribution $\mu$ over $\mathcal{X}$ such that
 	$$
@@ -293,7 +304,7 @@
 		$$
 		\E{R(\mathcal{A}(\cdot, S_m))} \ge \frac{1}{4},
 		$$
-		and use this to demonstrate that there exists a deterministic function $C$ under which $\E{R(\mathcal{A}(S_m))} \ge 1/4$ (the expectation here is taken only over the sample $S_m$).
+		and use this to demonstrate that there exists a deterministic function $C$ under which $\E{R(\mathcal{A}(\cdot, S_m))} \ge 1/4$ (the expectation here is taken only over the sample $S_m$).
 	2. Based on the conclusion of the previous part, prove that there exists a deterministic function $C$ such that:
 		$$
 		\Pr{R(\mathcal{A}(\cdot, S_m)) \ge 1/8} \ge 1/8.
