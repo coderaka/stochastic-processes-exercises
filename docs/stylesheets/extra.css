@@ -148,3 +148,15 @@
 	margin: 0;
 	line-height: 1.55;
 }
+
+/* Make the sidebar link to code_of_conduct appear lighter than other links. */
+.md-nav a.md-nav__link[href$="code_of_conduct/"],
+.md-nav a.md-nav__link[href$="code_of_conduct.md"] {
+	color: color-mix(in srgb, var(--md-default-fg-color) 45%, white) !important;
+}
+
+/* Warning line styling in code_of_conduct page. */
+.md-typeset .conduct-warning {
+	color: #c62828;
+	font-weight: 600;
+}
