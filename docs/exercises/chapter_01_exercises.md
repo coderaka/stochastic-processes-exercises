@@ -223,6 +223,6 @@
 
     <p class="note-inline">Note: This implies that a system composed of pairwise independent random variables cannot guarantee exponential decay of tail probabilities.</p>
 
---8<-- "solutions/chapter_01/exercises/exercise_so_close_yet_far.md"
+--8<-- "solutions/chapter_01/exercises/exercise_anti_concentration.md"
 
 ---
