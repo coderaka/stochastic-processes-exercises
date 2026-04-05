@@ -211,8 +211,8 @@
     	\Pr{\abs{Z - \E{Z}} \ge \eps^2 \E{Z}} \le \frac{4\sqrt{n}}{\eps^4 m} + \frac{4n}{\eps^4 m^2}.
     	$$
     4. 根据以上结论，我们知道当 $\dTV(\pi, \mu) \ge \eps$ 时碰撞发生概率明显大于均匀分布下碰撞发生概率，于是我们可以考虑根据碰撞发生频率 $Z$ 的大小来判断 $\pi$ 是否为均匀分布。我们考虑如下算法：
-    - 从 $\pi$ 中独立地采 $m = \frac{100\sqrt{n}}{\eps^4}$ 个样本点，并计算 $Z$ 的值；
-    - 若 $Z \ge \frac{1+2\eps^2}{n}$，则输出 $\dTV(\pi, \mu) \ge \eps$，反之输出 $\pi = \mu$。
+        - 从 $\pi$ 中独立地采 $m = \frac{100\sqrt{n}}{\eps^4}$ 个样本点，并计算 $Z$ 的值；
+        - 若 $Z \ge \frac{1+2\eps^2}{n}$，则输出 $\dTV(\pi, \mu) \ge \eps$，反之输出 $\pi = \mu$。
     	请证明该算法出错概率不超过 $0.1$。
     
 === "English"
@@ -243,8 +243,8 @@
     	\Pr{\abs{Z - \E{Z}} \ge \eps^2 \E{Z}} \le \frac{4\sqrt{n}}{\eps^4 m} + \frac{4n}{\eps^4 m^2}.
     	$$
     4. According to the above results, when $\dTV(\pi, \mu) \ge \eps$, the collision probability is significantly larger than under the uniform distribution. Therefore, we can base our judgment of whether $\pi$ is uniform on the magnitude of the empirical collision frequency $Z$. We consider the following algorithm:
-    - Draw $m = \frac{100\sqrt{n}}{\eps^4}$ independent samples from $\pi$, and calculate the value of $Z$;
-    - If $Z \ge \frac{1+2\eps^2}{n}$, output $\dTV(\pi, \mu) \ge \eps$; otherwise, output $\pi = \mu$.
+        - Draw $m = \frac{100\sqrt{n}}{\eps^4}$ independent samples from $\pi$, and calculate the value of $Z$;
+        - If $Z \ge \frac{1+2\eps^2}{n}$, output $\dTV(\pi, \mu) \ge \eps$; otherwise, output $\pi = \mu$.
     	Prove that the failure probability of this algorithm is at most $0.1$.
 
 --8<-- "solutions/chapter_01/problems/problem_uniformity_testing.md"
