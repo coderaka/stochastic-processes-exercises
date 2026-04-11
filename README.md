@@ -17,7 +17,7 @@
 
 习题与解答发布在 GitHub Pages 上：
 
-**👉 [https://yuchen-he00.github.io/stochastic-process-exercises/](https://yuchen-he00.github.io/stochastic-processes-exercises/)**
+**👉 [https://yuchen-he00.github.io/stochastic-processes-exercises/](https://yuchen-he00.github.io/stochastic-processes-exercises/)**
 
 ## 💬 反馈与建议
 
