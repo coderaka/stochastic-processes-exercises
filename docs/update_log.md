@@ -3,6 +3,10 @@
 === "中文"
     <div class="update-log">
       <div class="update-item">
+        <div class="update-meta">2026-04-30</div>
+        <p>第二章习题发布。</p>
+      </div>
+      <div class="update-item">
         <div class="update-meta">2026-04-10</div>
         <p>第一章问题“乐观的馈赠”第二小问 $t^{-4}$ 修改为 $t^{-3}$。</p>
       </div>
@@ -14,6 +18,10 @@
 
 === "English"
     <div class="update-log">
+      <div class="update-item">
+        <div class="update-meta">2026-04-30</div>
+        <p>Chapter 2 exercises released.</p>
+      </div>
       <div class="update-item">
         <div class="update-meta">2026-04-10</div>
         <p>The bound in the second sub-question of "Gift of Optimism" in Chapter 1 is revised from $t^{-4}$ to $t^{-3}$.</p>
