@@ -24,10 +24,10 @@
 
     (b) The infinity norm
     $$
-    \begin{align*}
+    \begin{aligned}
     \left\lVert P\right\rVert_\infty & =\max_{\left\lVert x\right\rVert_\infty\le1}\left\lVert Px\right\rVert_\infty=\max_{\left|x_k\right|\le1,\,\forall k}\max_i\left|\sum_jP_{ij}x_j\right| \cr
                                      & \le\max_{\left|x_k\right|\le1,\,\forall k}\max_i\sum_jP_{ij}\left|x_j\right|=\max_i\sum_jP_{ij}=1.
-    \end{align*}
+    \end{aligned}
     $$
     If $\left|\lambda_i\right|>1$ then $\left\lVert Pv_i\right\rVert_\infty>\left\lVert v_i\right\rVert_\infty$, a contradiction. Hence $\max_{i\in[n]} |\lambda_i| \le 1$. $\lambda_1=1$ follows from $P\mathbf1=\mathbf1$.
 
@@ -46,10 +46,10 @@
     *Proof of Part 3.*
     Let $\left\lbrace e_i\right\rbrace_{i=1}^n$ denote the standard basis of $\bb R^n$.
     $$
-    \begin{align*}
+    \begin{aligned}
     P^t(x,y) & =e_x^\mathsf{T} P^te_y=e_x^\mathsf{T}\sqrt\Pi^{-1}Q^t\sqrt\Pi e_y=\sqrt{\frac{\pi_y}{\pi_x}}\,\left\langle\sum_j\left\langle e_x,u_j\right\rangle u_j,Q^t\sum_i\left\langle e_y,u_i\right\rangle u_i\right\rangle \cr
              & =\sqrt{\frac{\pi_y}{\pi_x}}\,\sum_i\lambda_i^t\,\left\langle e_x,u_i\right\rangle\left\langle e_y,u_i\right\rangle=\sqrt{\frac{\pi_y}{\pi_x}}\,\sum_i\lambda_i^t\,u_i(x)u_i(y)=\sum_i\lambda_i^t\,v_i(x)\pi_yv_i(y).
-    \end{align*}
+    \end{aligned}
     $$
     Suppose $P$ is irreducible and aperiodic. Then $\lambda_1=1$ and $\left|\lambda_i\right|<1,\,\forall i>1$. If $v_1=\mathbf1$, then $u_1=\sqrt\Pi v_1=(\sqrt{\pi_1},\dots,\sqrt{\pi_n})$ has Euclidean norm $1$, as expected. Because $P$'s eigenvalue $1$ has geometric multiplicity $1$, indeed $v_1=\mathbf1$. Hence
     $$

@@ -192,6 +192,7 @@
         1. 假设网络完全没有独立意志，即 $\alpha = 0$，此为经典的投票者模型（voter model）。请说明该马尔可夫链平稳分布不唯一。
         2. 当 $\alpha \in (0, 1)$ 时，请证明该马尔可夫链是不可约且无周期的。
     2. 在一般的 $d$-正则图上，平稳分布极其复杂且不满足细致平衡条件。为了探究平稳分布的宏观特性，我们考虑完全图（$d=n-1$），考察该系统中持 $+1$ 观点的用户总数 $k \in \{0, 1, \dots, n\}$ 的演变。令参数 $\beta = \frac{\alpha(n-1)}{2(1-\alpha)}$。
+   
         1. 请写出该链的单步转移概率 $P_{k \to k+1}$ 和 $P_{k \to k-1}$，并证明其平稳分布满足：
            
             $$ \pi(k) \propto \binom{n}{k} \cdot \Gamma(\beta+k)\cdot \Gamma(\beta+n-k) $$
@@ -229,6 +230,7 @@
         1. Assume the network completely lacks independent will, i.e., $\alpha = 0$. This corresponds to the standard voter model. Explain why the stationary distribution of this Markov chain is not unique.
         2. For $\alpha \in (0, 1)$, prove that this Markov chain is irreducible and aperiodic.
     2. On a general $d$-regular graph, the stationary distribution is extremely complex and does not satisfy the detailed balance condition. To investigate the macroscopic characteristics of the stationary distribution, we consider a complete graph ($d=n-1$) and study the evolution of the total number of users $k \in \{0, 1, \dots, n\}$ holding the $+1$ opinion. Let the parameter be $\beta = \frac{\alpha(n-1)}{2(1-\alpha)}$.
+   
         1. Provide the single-step transition probabilities $P_{k \to k+1}$ and $P_{k \to k-1}$ for this chain, and prove that its stationary distribution satisfies:
            
             $$ \pi(k) \propto \binom{n}{k} \cdot \Gamma(\beta+k)\cdot \Gamma(\beta+n-k) $$

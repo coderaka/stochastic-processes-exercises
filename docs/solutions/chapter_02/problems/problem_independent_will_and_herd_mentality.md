@@ -7,13 +7,16 @@
 
     *Proof of Part 2.*
     By the law of total probability,
+
     $$
-    \begin{align*}
-    P(k,k+1) & =\frac{n-k}{n}\,\left(\alpha\cdot\frac12+(1-\alpha)\cdot\frac k{n-1}\right),\quad k<n. \cr
-    P(k,k-1) & =\frac kn\,\left(\alpha\cdot\frac12+(1-\alpha)\cdot\frac{n-k}{n-1}\right),\quad k>0.
-    \end{align*}
+    \begin{aligned}
+        P(k,k+1) &=\frac{n-k}{n}\,\left(\alpha\cdot\frac12+(1-\alpha)\cdot\frac k{n-1}\right),\quad k<n. \cr
+        P(k,k-1) &=\frac kn\,\left(\alpha\cdot\frac12+(1-\alpha)\cdot\frac{n-k}{n-1}\right),\quad k>0.
+    \end{aligned}
     $$
+
     The transition graph is shown below. We see that the chain $P$ is irreducible and aperiodic, and thus has a unique stationary distribution $\pi$.
+
     $$
     1 \rightleftarrows 2 \rightleftarrows \cdots \rightleftarrows n,
     \quad \text{with a self-loop at each state.}
@@ -38,21 +41,28 @@
 
     *Proof of Part 3a.*
     Let $H_t=H(X_t,Y_t)$. Fix $t$. We say that a user $v\in V$ is good if $X_t(v)=Y_t(v)$, and bad otherwise. Let $v$ be the user picked by both chains, and let $w$ be the neighbor of $v$ picked by both chains if $v$ exhibits conformity. Let
+
     $$
     p_1=\Pr{\text{$w$ is good}\mid X_t,Y_t,\text{$v$ is bad}},\quad p_2=\Pr{\text{$w$ is bad}\mid X_t,Y_t,\text{$v$ is good}}.
     $$
+
     Let $H=H(X_t,Y_t)$. Then
+
     $$
-    \begin{align*}
+    \begin{aligned}
     p_1 & =\Pr{\text{$w$ is good}\mid\text{$H$ bad users},\text{$v$ is bad}}=\frac{\Pr{\text{$w$ is good},\text{$v$ is bad}\mid\text{$H$ bad users}}}{\Pr{\text{$v$ is bad}\mid\text{$H$ bad users}}}, \cr
     p_2 & =\Pr{\text{$w$ is bad}\mid\text{$H$ bad users},\text{$v$ is good}}=\frac{\Pr{\text{$w$ is bad},\text{$v$ is good}\mid\text{$H$ bad users}}}{\Pr{\text{$v$ is good}\mid\text{$H$ bad users}}}.
-    \end{align*}
+    \end{aligned}
     $$
-    Here ``$H$ bad users'' means ``there are $H$ bad users in $(X_t,Y_t)$''. By the $d$-regularity of $G$, the numerators of $p_1$ and $p_2$ are equal. Thus
+
+    Here "$H$ bad users" means "there are $H$ bad users in $(X_t,Y_t)$". By the $d$-regularity of $G$, the numerators of $p_1$ and $p_2$ are equal. Thus
+
     $$
     \frac{p_1}{p_2}=\frac{\Pr{\text{$v$ is good}\mid\text{$H$ bad users}}}{\Pr{\text{$v$ is bad}\mid\text{$H$ bad users}}}=\frac{n-H}{H}.
     $$
+
     Now we have
+
     $$
     \E{H_{t+1}-H_t \mid X_t, Y_t} = \underbrace{-\frac Hn(\alpha+(1-\alpha)p_1)}_{\text{$v$ is bad}} + \underbrace{\left(1-\frac Hn\right)(1-\alpha)p_2}_{\text{$v$ is good}} = -\frac{\alpha}{n} H_t.
     $$
